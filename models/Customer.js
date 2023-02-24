@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const jwt = require("jsonwebtoken")
 const CustomerModel = new mongoose.Schema({
     name: {
         type: String,
@@ -25,7 +25,6 @@ const CustomerModel = new mongoose.Schema({
         type: String,
         required: [true, "kullanıcı telefon alanı boş bırakılamaz"]
     },
-    slug: String,
     addresses: {
         type: mongoose.Schema.ObjectId,
         ref: "Address"
@@ -50,5 +49,19 @@ const CustomerModel = new mongoose.Schema({
     resetPasswordToken: String,
     resetPasswordExpire: Date
 })
+CustomerModel.methods.generateJwtToken = function(){
+    const payload = {
+        id: this._id,
+        name: this.name,
+        surname: this.surname,
+        email: this.email
+    }
+
+    const token = jwt.sign(payload, process.env.SCREET_KEY, {
+        expiresIn: process.env.EXPIRE_IN
+    })
+    return token
+}
+
 
 module.exports = mongoose.model("Customer", CustomerModel)

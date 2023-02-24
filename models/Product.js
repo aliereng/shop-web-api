@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-
+const sluqify = require("slugify")
 const ProductModel = new mongoose.Schema({
     name: {
         type: String,
@@ -44,6 +44,24 @@ const ProductModel = new mongoose.Schema({
         }
     ]
 })
+ProductModel.pre("save", function (next) {
 
+    if (!this.isModified("name")) {
+        next()
+    }
+    this.slug = this.makeSlug();
+    next();
+
+});
+ProductModel.methods.makeSlug = function () {
+    return sluqify(this.name, {
+        replacement: '-',  
+        remove: /[*+~.()'"!:@]/g, 
+        lower: true,     
+        strict: false,    
+        locale: 'vi',      
+        trim: true    
+    })
+}
 
 module.exports = mongoose.model("Product", ProductModel)

@@ -1,5 +1,7 @@
 const mongoose = require("mongoose");
-
+const sluqify = require("slugify")
+const jwt = require("jsonwebtoken")
+const Product = require("../models/Product");
 const SupplierModel = new mongoose.Schema({
     name: {
         type: String,
@@ -29,7 +31,7 @@ const SupplierModel = new mongoose.Schema({
         type: String,
         required: [true, "sağlayıcı telefon alanı boş bırakılamaz"]
     },
-    slug: String,
+    
     taxNumber: {
         type: String,
         required: [true, "satıcı vergi numara alanı boş bırakılamaz"]
@@ -46,11 +48,46 @@ const SupplierModel = new mongoose.Schema({
             ref: "Shipper"
         }
     ],
+    slug: String,
     score: Number,
     followers: Number,
     resetPasswordToken: String,
     resetPasswordExpire: Date
 
 })
+SupplierModel.pre("save", function (next) {
+
+    if (!this.isModified("shopName")) {
+        next()
+    }
+    this.slug = this.makeSlug();
+    next();
+
+});
+SupplierModel.methods.makeSlug = function () {
+    return sluqify(this.shopName, {
+        replacement: '-',  
+        remove: /[*+~.()'"!:@]/g, 
+        lower: true,     
+        strict: false,    
+        locale: 'vi',      
+        trim: true    
+    })
+}
+SupplierModel.methods.generateJwtToken = function(){
+    const payload = {
+        id: this._id,
+        name: this.name,
+        surname: this.surname,
+        email: this.email,
+        shopName: this.shopName
+    }
+
+    const token = jwt.sign(payload, process.env.SCREET_KEY, {
+        expiresIn: process.env.EXPIRE_IN
+    })
+    return token
+}
+
 
 module.exports = mongoose.model("Supplier", SupplierModel)
