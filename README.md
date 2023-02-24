@@ -1,2 +1,2 @@
 # shop-web-api
-açıklamalar proje sonunda eklenecek
+#açıklamalar proje sonunda eklenecek
