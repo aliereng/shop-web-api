@@ -5,16 +5,31 @@ const CartModel = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref:"Customer"
     },
-    cartAmount: Number,
-    products: [
+    amount: {
+        type: Number,
+        default:0
+    },
+    status: {
+        type: Boolean,
+        default: false
+    },
+    items: [
         {
             product: {
                 type: mongoose.Schema.ObjectId,
                 ref: "Product"
             },
-            count: Number
+            stock: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Stock"
+            },
+            count: {
+                type: Number,
+                default: 0
+            }
         }
     ]
 })
+
 
 module.exports = mongoose.model("Cart", CartModel)

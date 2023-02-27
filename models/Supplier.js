@@ -2,6 +2,8 @@ const mongoose = require("mongoose");
 const sluqify = require("slugify")
 const jwt = require("jsonwebtoken")
 const Product = require("../models/Product");
+const bcrypt = require("bcryptjs")
+
 const SupplierModel = new mongoose.Schema({
     name: {
         type: String,
@@ -56,14 +58,25 @@ const SupplierModel = new mongoose.Schema({
 
 })
 SupplierModel.pre("save", function (next) {
-
-    if (!this.isModified("shopName")) {
-        next()
+    if (!this.isModified("password") || !this.isModified("shopName")) {
+        next();
     }
-    this.slug = this.makeSlug();
-    next();
-
+    this.slug = this.makeSlug();  
+    if(this.isModified("password")){
+        bcrypt.genSalt(10, (err, salt) => {
+            if (err) next(err)
+            bcrypt.hash(this.password, salt, (err, hash) => {
+                
+                if (err) next(err);
+                this.password = hash;
+                next();
+            });
+        });
+    }
+    
+        
 });
+
 SupplierModel.methods.makeSlug = function () {
     return sluqify(this.shopName, {
         replacement: '-',  

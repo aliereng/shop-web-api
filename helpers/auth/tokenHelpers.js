@@ -9,6 +9,7 @@ const sendJwtToCLient = (user, res) => {
         .json({
             access_token: token,
             data: {
+                id:user._id,
                 name: user.name,
                 surname: user.surname,
                 email: user.email
