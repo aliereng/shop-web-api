@@ -3,6 +3,7 @@ const product = require("./product")
 const category = require("./category")
 const merchant = require("./merchant")
 const customer = require("./customer")
+const transaction = require("./transaction")
 const cart = require("./cart")
 
 const router = express.Router();
@@ -13,4 +14,5 @@ router.use("/categories", category)
 router.use("/customer", customer)
 router.use("/merchant", merchant)
 router.use("/cart", cart)
+router.use("/transaction", transaction)
 module.exports = router;

@@ -1,14 +1,27 @@
 const mongoose = require("mongoose");
-const Customer = require("./Customer");
+const Stock = require("./Stock");
+const Cart = require("./Cart")
+const Product = require("./Product")
+const Transactions = require("./Transactions");
 const OrderModel = new mongoose.Schema({
     customer: {
         type: mongoose.Schema.ObjectId,
         ref: "Customer"
     },
-    products: [
+    items: [
         {
-            type: mongoose.Schema.ObjectId,
-            ref: "Product"
+            product: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Product"
+            },
+            stock: {
+                type: mongoose.Schema.ObjectId,
+                ref:  "Stock"
+            },
+            count: {
+                type: Number,
+                default: 0
+            }
         }
     ],
     shipper: {
@@ -35,8 +48,37 @@ const OrderModel = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
-    orderAmount: Number
+    amount: {
+        type: Number,
+        default:0
+    }
 
+})
+OrderModel.post("save", async function(){
+    
+    const currentSupplier = []
+    this.items.map(async(item) => {
+        let stock = await Stock.findById(item.stock);
+        let product = await Product.findById(item.product);
+        currentSupplier.push( product.supplier)
+        stock.piece -= item.count;
+        stock.save();
+    })
+    setTimeout(async () => {
+        await Transactions.create({
+            customer: this.customer,
+            suppliers: currentSupplier,
+            order: this
+        })
+    }, 1000);
+    await Cart.findOneAndUpdate({customer: this.customer}, {
+        items: [],
+        amount: 0
+    }, {
+        new: true,
+        runValidators: true
+    })
+    
 })
 
 // OrderModel.post("save", async function(next){
