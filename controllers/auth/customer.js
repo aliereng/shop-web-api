@@ -5,6 +5,9 @@ const CustomError = require("../../helpers/error/CustomError")
 
 const Customer = require("../../models/Customer");
 const Cart = require("../../models/Cart");
+const Order = require("../../models/Order");
+const Address = require("../../models/Address")
+const Transaction = require("../../models/Transaction");
 
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const customer = await Customer.create({
@@ -12,6 +15,35 @@ const register = asyncHandlerWrapper(async (req, res, next) => {
     })
     sendJwtToCLient(customer, res);
 })
+const getCustomer = asyncHandlerWrapper(async (req, res, next) =>{
+    const customer = await Customer.findById(req.user.id);
+    res.status(200)
+    .json({
+        data: customer
+    })
+})
+const addAddress = asyncHandlerWrapper(async (req, res, next) =>{
+    const address = await Address.create({
+        userType: "Customer",
+        user: req.user.id,
+        ...req.body
+    });
+    res.status(200)
+    .json({
+        data: address
+    })
+})
+const getTransaction = asyncHandlerWrapper(async (req, res, next) =>{
+    const transaction = await Transaction.find({customer: req.user.id})
+    const order = await Order.findById(transaction.order).populate({path:"items.product", select:"name supplier"}).populate({path: "items.stock", select: "size color price"}).populate({path: "deliveredAddress", select: "addressTitle address"})
+
+    transaction.order = order
+    res.status(200)
+    .json({
+        data: transaction
+    })
+})
+
 const login = asyncHandlerWrapper(async (req, res, next) => {
     const {email, password} = req.body;
     if(!validateInputs(email, password)){
@@ -62,6 +94,9 @@ module.exports = {
     login,
     update,
     deleteCustomerById,
-    deleteAllCustomer
+    deleteAllCustomer,
+    getCustomer,
+    getTransaction,
+    addAddress
 
 }

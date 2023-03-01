@@ -6,7 +6,7 @@ const router = express.Router();
 router.use([getAccessToRoute, getCustomerAccess])
 
 router.post("/addtocart", addToCart);
-router.get("/apply", [getAccessToRoute, getCustomerAccess], applyCart)
+router.post("/apply", [getAccessToRoute, getCustomerAccess], applyCart)
 
 // router.get("/applycart" , applyCart)
 

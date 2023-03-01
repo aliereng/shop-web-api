@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Stock = require("./Stock");
 const Cart = require("./Cart")
 const Product = require("./Product")
-const Transactions = require("./Transactions");
+const Transaction = require("./Transaction");
 const OrderModel = new mongoose.Schema({
     customer: {
         type: mongoose.Schema.ObjectId,
@@ -65,7 +65,7 @@ OrderModel.post("save", async function(){
         stock.save();
     })
     setTimeout(async () => {
-        await Transactions.create({
+        await Transaction.create({
             customer: this.customer,
             suppliers: currentSupplier,
             order: this
@@ -84,14 +84,14 @@ OrderModel.post("save", async function(){
 // OrderModel.post("save", async function(next){
 //     if(this.paymentStatus){
 //         const customer = await Customer.findById(this.customer);
-//         customer.transactions.orders.push(this._id);
+//         customer.Transaction.orders.push(this._id);
 //         customer.save();
 //     }
 //     if(this.orderStatus && this.shippedStatus && this.paymentStatus){
 //         const customer = await Customer.findById(this.customer);
-//         const index = customer.transactions.orders.indexOf(this._id);
+//         const index = customer.Transaction.orders.indexOf(this._id);
 //         customer.pastTrancactions.orders.push(this._id)
-//         customer.transactions.orders.slice(index, 1);
+//         customer.Transaction.orders.slice(index, 1);
 //         customer.save();
 //     }
 
