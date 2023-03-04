@@ -34,13 +34,6 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
         ...req.body
     };
    
-
-    // cart.items.map(async item => {
-    //     newOrder.items.push(
-    
-    //         {product: item.product, stock: item.stock, count: item.count}
-    //     )
-    // })
     const order = await Order.create(newOrder)
     res.status(200).json({data: order})
 
@@ -50,3 +43,6 @@ module.exports = {
     addToCart,
     applyCart
 }
+//63fbaf706955fce1040c2a4b - 63fcd6806cc7e91af13bb085
+//63fcf813992e38f9ebf362de - 63fcf848992e38f9ebf362ee
+//63fcfc3f992e38f9ebf36318 - 63fcfc72992e38f9ebf3632e

@@ -10,6 +10,14 @@ const getAllProducts = asyncHandlerWrapper(async (req, res, next)=>{
         data: products
     })
 });
+const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
+    const products = await Product.find({supplier: req.user.id}).populate("stocks", "size color piece price");
+
+    res.status(200)
+    .json({
+        data: products
+    })
+});
 const addProduct = asyncHandlerWrapper(async (req, res, next)=>{
     
     const product = await Product.create({
@@ -83,5 +91,6 @@ module.exports = {
     createStockAndAddProduct,
     update,
     deleteAllProduct,
-    deleteProductById
+    deleteProductById,
+    getAllProductsBySupplier
 }

@@ -1,21 +1,43 @@
 const mongoose = require("mongoose");
 
 const TransactionModel = new mongoose.Schema({
-    customer: {
+    supplier: {
         type: mongoose.Schema.ObjectId,
-        ref: "Customer"
+        ref: "Supplier"
     },
-    suppliers: [
+    
+    items: [
         {
-            type: mongoose.Schema.ObjectId,
-            ref: "Supplier"
+            product:String,
+            stock: String,
+            color: String,
+            count: String,
+            deliveredAddress: {
+                type: mongoose.Schema.ObjectId,
+                ref:"Address"
+            },
+            invoiceAddress: {
+                type: mongoose.Schema.ObjectId,
+                ref:"Address"
+            },
+            orderStatus: {
+                type: Boolean,
+                default: false,
+            },
+            shippedStatus: {
+                type: Boolean,
+                default: false,
+            },
+            shipper: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Shipper"
+            },
+            order: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Order"
+            }
         }
-    ],
-    order: 
-        {
-            type: mongoose.Schema.ObjectId,
-            ref:"Order"
-        }
+    ]
     
 })
 

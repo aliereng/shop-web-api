@@ -3,6 +3,7 @@ const {sendJwtToCLient} = require("../../helpers/auth/tokenHelpers");
 const { validateInputs, comparePassword } = require("../../helpers/login/loginHelpers")
 const CustomError = require("../../helpers/error/CustomError")
 const Supplier = require("../../models/Supplier")
+const Transaction = require("../../models/Transaction")
 
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const supplier = await Supplier.create({
@@ -22,7 +23,19 @@ const login = asyncHandlerWrapper(async (req, res, next) => {
     sendJwtToCLient(supplier, res);
 })
 
+const getTransaction = asyncHandlerWrapper(async (req, res, next) =>{
+    const transaction = await Transaction.find({supplier: req.user.id})
+    
+    res.status(200)
+    .json({
+        data: transaction
+    })
+})
+// const updateTransactions = asyncHandlerWrapper(async(req, res, next)=>{
+// })
+
 module.exports = {
     register,
-    login
+    login,
+    getTransaction
 }

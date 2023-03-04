@@ -16,18 +16,27 @@ const OrderModel = new mongoose.Schema({
             },
             stock: {
                 type: mongoose.Schema.ObjectId,
-                ref:  "Stock"
+                ref: "Stock"
             },
             count: {
                 type: Number,
                 default: 0
+            },
+            orderStatus: {
+                type: Boolean,
+                default: false,
+            },
+            shippedStatus: {
+                type: Boolean,
+                default: false,
+            },
+            shipper: {
+                type: mongoose.Schema.ObjectId,
+                ref: "Shipper"
             }
         }
     ],
-    shipper: {
-        type: mongoose.Schema.ObjectId,
-        ref: "Shipper"
-    },
+
     deliveredAddress: {
         type: mongoose.Schema.ObjectId,
         ref: "Address"
@@ -40,45 +49,51 @@ const OrderModel = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    orderStatus:{
-        type: Boolean,
-        default: false,
-    },
-    shippedStatus:{
-        type: Boolean,
-        default: false,
-    },
     amount: {
         type: Number,
-        default:0
+        default: 0
     }
 
 })
-OrderModel.post("save", async function(){
-    
-    const currentSupplier = []
-    this.items.map(async(item) => {
+OrderModel.post("save", async function () {
+
+
+    this.items.map(async (item) => {
         let stock = await Stock.findById(item.stock);
         let product = await Product.findById(item.product);
-        currentSupplier.push( product.supplier)
         stock.piece -= item.count;
         stock.save();
+        const transaction = await Transaction.findOne({ supplier: product.supplier })
+        let newItem = {
+            product: product.name,
+            stock: stock.size,
+            color: stock.color,
+            count: item.count,
+            deliveredAddress: this.deliveredAddress,
+            invoiceAddress: this.invoiceAddress,
+            order: this._id
+        }
+        if (transaction) {
+            transaction.items.push(newItem)
+            transaction.save();
+        } else {
+            const transaction = await Transaction.create({
+                supplier: product.supplier
+            })
+            transaction.items.push(newItem);
+            transaction.save();
+        }
+
     })
-    setTimeout(async () => {
-        await Transaction.create({
-            customer: this.customer,
-            suppliers: currentSupplier,
-            order: this
-        })
-    }, 1000);
-    await Cart.findOneAndUpdate({customer: this.customer}, {
+
+    await Cart.findOneAndUpdate({ customer: this.customer }, {
         items: [],
         amount: 0
     }, {
         new: true,
         runValidators: true
     })
-    
+
 })
 
 // OrderModel.post("save", async function(next){

@@ -7,7 +7,7 @@ const Customer = require("../../models/Customer");
 const Cart = require("../../models/Cart");
 const Order = require("../../models/Order");
 const Address = require("../../models/Address")
-const Transaction = require("../../models/Transaction");
+// const Transaction = require("../../models/Transaction");
 
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const customer = await Customer.create({
@@ -22,6 +22,13 @@ const getCustomer = asyncHandlerWrapper(async (req, res, next) =>{
         data: customer
     })
 })
+const getOrders = asyncHandlerWrapper(async (req, res, next) =>{
+    const orders = await Order.findOne({customer: req.user.id});
+    res.status(200)
+    .json({
+        data: orders
+    })
+})
 const addAddress = asyncHandlerWrapper(async (req, res, next) =>{
     const address = await Address.create({
         userType: "Customer",
@@ -33,16 +40,14 @@ const addAddress = asyncHandlerWrapper(async (req, res, next) =>{
         data: address
     })
 })
-const getTransaction = asyncHandlerWrapper(async (req, res, next) =>{
-    const transaction = await Transaction.find({customer: req.user.id})
-    const order = await Order.findById(transaction.order).populate({path:"items.product", select:"name supplier"}).populate({path: "items.stock", select: "size color price"}).populate({path: "deliveredAddress", select: "addressTitle address"})
-
-    transaction.order = order
-    res.status(200)
-    .json({
-        data: transaction
-    })
-})
+// const getTransaction = asyncHandlerWrapper(async (req, res, next) =>{
+//     const transaction = await Transaction.find({customer: req.user.id}).populate({path:"order", populate: {path: "items", populate: [{path:"stock", select:"size color"}, {path:"product", select:"name", populate:{path:"supplier", select:"shopName"}}]}})
+    
+//     res.status(200)
+//     .json({
+//         data: transaction
+//     })
+// })
 
 const login = asyncHandlerWrapper(async (req, res, next) => {
     const {email, password} = req.body;
@@ -96,7 +101,7 @@ module.exports = {
     deleteCustomerById,
     deleteAllCustomer,
     getCustomer,
-    getTransaction,
-    addAddress
+    addAddress,
+    getOrders
 
 }
