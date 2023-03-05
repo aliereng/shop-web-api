@@ -1,44 +1,25 @@
 const mongoose = require("mongoose");
-
+const Order = require("../models/Order")
 const TransactionModel = new mongoose.Schema({
     supplier: {
         type: mongoose.Schema.ObjectId,
         ref: "Supplier"
     },
     
-    items: [
-        {
-            product:String,
-            stock: String,
-            color: String,
-            count: String,
-            deliveredAddress: {
-                type: mongoose.Schema.ObjectId,
-                ref:"Address"
-            },
-            invoiceAddress: {
-                type: mongoose.Schema.ObjectId,
-                ref:"Address"
-            },
-            orderStatus: {
-                type: Boolean,
-                default: false,
-            },
-            shippedStatus: {
-                type: Boolean,
-                default: false,
-            },
-            shipper: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Shipper"
-            },
-            order: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Order"
-            }
-        }
-    ]
+    order: {
+        type: mongoose.Schema.ObjectId,
+        ref:"Order"
+    }
     
+})
+TransactionModel.post("save", async function(){
+    await Order.findByIdAndUpdate(this.order, {
+       ...this.order
+    },{
+        new:true,
+        runValidators: true,
+        rawResult: true
+    })
 })
 
 module.exports = mongoose.model("Transaction", TransactionModel)

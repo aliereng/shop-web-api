@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
+const crypto = require("crypto")
 const Cart = require("./Cart");
 const CustomerModel = new mongoose.Schema({
     name: {
@@ -27,12 +28,15 @@ const CustomerModel = new mongoose.Schema({
         type: String,
         required: [true, "kullanıcı telefon alanı boş bırakılamaz"]
     },
-    identifyNumber: String,
-    resetPasswordToken: String,
-    resetPasswordExpire: Date
+    resetPasswordToken: {
+        type: String
+    },
+    resetPasswordExpire: {
+        type: Date
+    }
 })
 CustomerModel.pre("save", function (next) {
-   
+
     if (!this.isModified("password")) {
         next();
     }
@@ -45,12 +49,12 @@ CustomerModel.pre("save", function (next) {
         });
     });
 })
-CustomerModel.post("save", async function(){
+CustomerModel.post("save", async function () {
     await Cart.create({
-        customer : this._id
+        customer: this._id
     })
 })
-CustomerModel.methods.generateJwtToken = function(){
+CustomerModel.methods.generateJwtToken = function () {
     const payload = {
         id: this._id,
         name: this.name,
@@ -62,6 +66,19 @@ CustomerModel.methods.generateJwtToken = function(){
         expiresIn: process.env.EXPIRE_IN
     })
     return token
+}
+CustomerModel.methods.getResetPasswordTokenFromUser =  function() {
+    const randomHexString = crypto.randomBytes(15).toString("hex");
+
+    const resetPasswordToken = crypto
+        .createHash("SHA256")
+        .update(randomHexString)
+        .digest("hex")
+        
+    this.resetPasswordToken = resetPasswordToken;
+    this.resetPasswordExpire = Date.now() + parseInt(process.env.RESET_PASSWORD_EXPIRE) 
+    this.save();
+    return resetPasswordToken
 }
 
 

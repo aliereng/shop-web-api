@@ -101,6 +101,20 @@ SupplierModel.methods.generateJwtToken = function(){
     })
     return token
 }
+SupplierModel.methods.getResetPasswordTokenFromUser =  function() {
+    const randomHexString = crypto.randomBytes(15).toString("hex");
+
+    const resetPasswordToken = crypto
+        .createHash("SHA256")
+        .update(randomHexString)
+        .digest("hex")
+        
+    this.resetPasswordToken = resetPasswordToken;
+    this.resetPasswordExpire = Date.now() + parseInt(process.env.RESET_PASSWORD_EXPIRE) 
+    this.save();
+    return resetPasswordToken
+}
+
 
 
 module.exports = mongoose.model("Supplier", SupplierModel)

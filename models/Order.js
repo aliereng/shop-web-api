@@ -1,42 +1,36 @@
 const mongoose = require("mongoose");
 const Stock = require("./Stock");
 const Cart = require("./Cart")
-const Product = require("./Product")
 const Transaction = require("./Transaction");
 const OrderModel = new mongoose.Schema({
-    customer: {
+    product: {
         type: mongoose.Schema.ObjectId,
-        ref: "Customer"
+        ref: "Product"
     },
-    items: [
-        {
-            product: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Product"
-            },
-            stock: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Stock"
-            },
-            count: {
-                type: Number,
-                default: 0
-            },
-            orderStatus: {
-                type: Boolean,
-                default: false,
-            },
-            shippedStatus: {
-                type: Boolean,
-                default: false,
-            },
-            shipper: {
-                type: mongoose.Schema.ObjectId,
-                ref: "Shipper"
-            }
-        }
-    ],
-
+    stock: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Stock"
+    },
+    count: {
+        type: Number,
+        default: 0
+    },
+    orderStatus: {
+        type: Boolean,
+        default: false,
+    },
+    shippedStatus: {
+        type: Boolean,
+        default: false,
+    },
+    supplier: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Supplier"
+    },
+    shipper: {
+        type: mongoose.Schema.ObjectId,
+        ref: "Shipper"
+    },
     deliveredAddress: {
         type: mongoose.Schema.ObjectId,
         ref: "Address"
@@ -56,36 +50,13 @@ const OrderModel = new mongoose.Schema({
 
 })
 OrderModel.post("save", async function () {
-
-
-    this.items.map(async (item) => {
-        let stock = await Stock.findById(item.stock);
-        let product = await Product.findById(item.product);
-        stock.piece -= item.count;
-        stock.save();
-        const transaction = await Transaction.findOne({ supplier: product.supplier })
-        let newItem = {
-            product: product.name,
-            stock: stock.size,
-            color: stock.color,
-            count: item.count,
-            deliveredAddress: this.deliveredAddress,
-            invoiceAddress: this.invoiceAddress,
-            order: this._id
-        }
-        if (transaction) {
-            transaction.items.push(newItem)
-            transaction.save();
-        } else {
-            const transaction = await Transaction.create({
-                supplier: product.supplier
-            })
-            transaction.items.push(newItem);
-            transaction.save();
-        }
-
+    let stock = await Stock.findById(this.stock);
+    stock.piece -= this.count;
+    stock.save();
+    await Transaction.create({
+        supplier: this.supplier,
+        order: this
     })
-
     await Cart.findOneAndUpdate({ customer: this.customer }, {
         items: [],
         amount: 0
