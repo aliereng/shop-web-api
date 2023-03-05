@@ -48,7 +48,11 @@ const ProductModel = new mongoose.Schema({
             type: mongoose.Schema.ObjectId,
             ref: "Stock"
         }
-    ]
+    ],
+    show: {
+        type: Boolean,
+        default: true
+    }
 })
 ProductModel.pre("save", function (next) {
 

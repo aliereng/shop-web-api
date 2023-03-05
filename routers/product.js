@@ -1,10 +1,10 @@
 const express = require("express");
 const {getAllProducts, addProduct, update, deleteAllProduct, deleteProductById, createStockAndAddProduct, getAllProductsBySupplier} = require("../controllers/product");
-const {getAccessToRoute, getSupplierAccess} = require("../middlewares/authorization/auth")
+const {getAccessToRoute, getSupplierAccess, getAdminAccess} = require("../middlewares/authorization/auth")
 const {existStock} = require("../middlewares/product/product")
 const router = express.Router();
 
-router.get("/", getAllProducts);
+
 router.get("/merchant",[getAccessToRoute, getSupplierAccess], getAllProductsBySupplier);
 router.post("/add", [getAccessToRoute, getSupplierAccess], addProduct)
 router.post("/addstock", [getAccessToRoute, getSupplierAccess, existStock], createStockAndAddProduct)

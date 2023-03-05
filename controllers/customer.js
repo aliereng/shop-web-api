@@ -1,13 +1,20 @@
 const asyncHandlerWrapper = require("express-async-handler")
-const {sendJwtToCLient} = require("../../helpers/auth/tokenHelpers");
-const {validateInputs, comparePassword} = require("../../helpers/login/loginHelpers");
-const CustomError = require("../../helpers/error/CustomError")
-const sendEmail = require("../../helpers/libraries/sendEmail")
-const Customer = require("../../models/Customer");
-const Cart = require("../../models/Cart");
-const Order = require("../../models/Order");
-const Address = require("../../models/Address")
+const {sendJwtToCLient} = require("../helpers/auth/tokenHelpers");
+const {validateInputs, comparePassword} = require("../helpers/login/loginHelpers");
+const CustomError = require("../helpers/error/CustomError")
+const sendEmail = require("../helpers/libraries/sendEmail")
+const Customer = require("../models/Customer");
+const Cart = require("../models/Cart");
+const Order = require("../models/Order");
+const Address = require("../models/Address")
 
+const getAllCustomers = asyncHandlerWrapper(async(req, res, next)=> {
+    const customers = await Customer.find()
+    res.status(200).json({
+        success: true,
+        data: customers
+    })
+})
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const customer = await Customer.create({
         ...req.body
@@ -144,6 +151,7 @@ module.exports = {
     addAddress,
     getOrders,
     forgotPassword,
-    resetPassword
+    resetPassword,
+    getAllCustomers
 
 }

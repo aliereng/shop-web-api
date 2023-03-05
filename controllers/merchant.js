@@ -1,10 +1,17 @@
 const asyncHandlerWrapper = require("express-async-handler")
-const { sendJwtToCLient } = require("../../helpers/auth/tokenHelpers");
-const { validateInputs, comparePassword } = require("../../helpers/login/loginHelpers")
-const CustomError = require("../../helpers/error/CustomError")
-const Supplier = require("../../models/Supplier")
-const Transaction = require("../../models/Transaction")
+const { sendJwtToCLient } = require("../helpers/auth/tokenHelpers");
+const { validateInputs, comparePassword } = require("../helpers/login/loginHelpers")
+const CustomError = require("../helpers/error/CustomError")
+const Supplier = require("../models/Supplier")
+const Transaction = require("../models/Transaction")
 
+const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
+    const suppliers = await Supplier.find();
+    res.status(200).json({
+        success: true,
+        data: suppliers
+    })
+})
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const supplier = await Supplier.create({
         ...req.body
@@ -111,5 +118,6 @@ module.exports = {
     getTransaction,
     updateTransaction,
     resetPassword,
-    forgotPassword
+    forgotPassword,
+    getAllSuppliers
 }

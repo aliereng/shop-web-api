@@ -1,5 +1,6 @@
 const express = require("express");
 const product = require("./product")
+const admin = require("./admin")
 const category = require("./category")
 const merchant = require("./merchant")
 const customer = require("./customer")
@@ -8,7 +9,7 @@ const shipper = require("./shipper")
 const cart = require("./cart")
 
 const router = express.Router();
-
+router.use("/admin", admin)
 router.use("/", product);
 router.use("/products", product)
 router.use("/categories", category)
