@@ -4,6 +4,7 @@ const { validateInputs, comparePassword } = require("../helpers/login/loginHelpe
 const CustomError = require("../helpers/error/CustomError")
 const Supplier = require("../models/Supplier")
 const Transaction = require("../models/Transaction")
+const Order = require("../models/Order")
 
 const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
     const suppliers = await Supplier.find();
@@ -101,13 +102,16 @@ const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
 
 })
 const updateTransaction = asyncHandlerWrapper(async (req, res, next) => {
-    const transaction = await Transaction.findById(req.body.transactionId).populate({path:"order", select:"shippedStatus orderStatus shipper"});
-    transaction.order.orderStatus = req.body.orderStatus;
-    transaction.order.shippedStatus = req.body.shippedStatus;
-    transaction.order.shipper = req.body.shipper;
-    await transaction.save();
+    const transaction = await Transaction.findById(req.body.transactionId);
+    await Order.findByIdAndUpdate(transaction.order, {
+        ...req.body
+    }, {
+        new: true,
+        runValidators: true,
+        rawResult: true
+    })
     res.status(200).json({
-        data:  transaction
+        success:  true
     })
     
 })

@@ -34,6 +34,7 @@ const CustomerModel = new mongoose.Schema({
     resetPasswordExpire: {
         type: Date
     }
+   
 })
 CustomerModel.pre("save", function (next) {
 

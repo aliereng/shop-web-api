@@ -9,11 +9,7 @@ const Order = require("../models/Order");
 const Address = require("../models/Address")
 
 const getAllCustomers = asyncHandlerWrapper(async(req, res, next)=> {
-    const customers = await Customer.find()
-    res.status(200).json({
-        success: true,
-        data: customers
-    })
+    res.status(200).json(res.queryResults)
 })
 const register = asyncHandlerWrapper(async (req, res, next) => {
     const customer = await Customer.create({

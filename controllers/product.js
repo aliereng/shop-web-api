@@ -3,13 +3,7 @@ const asyncHandlerWrapper = require("express-async-handler")
 const Product = require("../models/Product")
 const Stock = require("../models/Stock")
 const getAllProducts = asyncHandlerWrapper(async (req, res, next)=>{
-    const products = await Product.find().populate("stocks", "size color piece price");
-
-    res.status(200)
-    .json({
-        success:"true",
-        data: products
-    })
+    res.status(200).json(res.queryResults)
 });
 const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
     const products = await Product.find({supplier: req.user.id}).populate("stocks", "size color piece price");
