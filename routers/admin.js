@@ -1,7 +1,7 @@
 const express = require("express");
 const { getAccessToRoute, getAdminAccess } = require("../middlewares/authorization/auth");
 const {getAllProducts} = require("../controllers/product")
-const {register, login } = require("../controllers/auth");
+const {register, login, forgotPassword,resetPassword } = require("../controllers/auth");
 const { getAllCustomers } = require("../controllers/customer");
 const { getAllSuppliers } = require("../controllers/merchant");
 const { customerQueryMiddleware } = require("../middlewares/query/customerQueryMiddleware");

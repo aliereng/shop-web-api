@@ -37,55 +37,7 @@ const addAddress = asyncHandlerWrapper(async (req, res, next) =>{
         data: address
     })
 })
-const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
-    const confirmEmail = req.body.email;
-    const customer = await Customer.findOne({email: confirmEmail});
-    if(!customer) {
-        return next(new CustomError("girilen email bilgisi ile eşleşen hesap bulunamadı", 400))
-    }
-    const resetPasswordToken = customer.getResetPasswordTokenFromUser();
-    
-    const resetPasswordUrl= `http://localhost:3000/api/customer/resetpassword?resetPasswordToken=${resetPasswordToken}`;
-    const emailTemplate = `
-        <h2>Reset Your Password</h2>
-        <p>This <a href='${resetPasswordUrl}' target='_blank'>link</a> will expire in 1 hour.</p>
-    `;
-    
-    try {
-        
-        await sendEmail({
-            from: process.env.SMTP_USER,
-            to: confirmEmail,
-            subject:"Reset Password",
-            html: emailTemplate
-        })
-        res.status(200)
-        .send("eposta adresinize sıfırlama maili gönderildi")
-    } catch (error) {
-        customer.resetPasswordExpire = undefined;
-        customer.resetPasswordToken = undefined;
-        await customer.save();
-        return next(new CustomError("mail gönderilemedi. hata: "+ error, 500))
-    }
-})
 
-const resetPassword = asyncHandlerWrapper(async(req, res, next) => {
-    const {resetPasswordToken} = req.query;
-    const {password} = req.body;
-    const customer = await Customer.findOne({
-        resetPasswordToken: resetPasswordToken,
-        resetPasswordExpire: {$gt: Date.now()}
-    })
- 
-    if(!customer) {
-        return next(new CustomError("süresi dolmuş ya da geçersiz token", 400))
-    }
-    customer.password = password;
-    customer.resetPasswordExpire = undefined;
-    customer.resetPasswordToken = undefined;
-    await customer.save();
-    res.status(200).send("parola değiştirme işlemi başarılı")
-})
 
 
 const update = asyncHandlerWrapper(async (req, res, next)=>{
@@ -129,8 +81,6 @@ module.exports = {
     getCustomer,
     addAddress,
     getOrders,
-    forgotPassword,
-    resetPassword,
     getAllCustomers
 
 }

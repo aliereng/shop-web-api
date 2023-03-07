@@ -19,6 +19,15 @@ const StockModel = new mongoose.Schema({
     price: {
         type: Number,
         default:0
+    },
+    type:{
+        type:String,
+        default:"other",
+        enum:["other", "base"]
+    },
+    status: {
+        type: Boolean,
+        default:true
     }
    
 })

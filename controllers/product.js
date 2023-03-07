@@ -19,6 +19,11 @@ const addProduct = asyncHandlerWrapper(async (req, res, next)=>{
         supplier: req.user.id,
         ...req.body
     })
+    product.stocks.push(await Stock.create({
+        product: product._id,
+        ...req.body
+    }));
+    product.save();
    
     res.status(200).
     json({
