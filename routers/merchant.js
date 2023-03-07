@@ -1,5 +1,6 @@
 const express = require("express");
-const { register, login, getTransaction, updateTransaction,forgotPassword,resetPassword } = require("../controllers/merchant");
+const { getTransaction, updateTransaction,forgotPassword,resetPassword } = require("../controllers/merchant");
+const {register, login } = require("../controllers/auth");
 const {getAccessToRoute, getSupplierAccess} = require("../middlewares/authorization/auth")
 const router = express.Router();
 

@@ -11,12 +11,7 @@ const Address = require("../models/Address")
 const getAllCustomers = asyncHandlerWrapper(async(req, res, next)=> {
     res.status(200).json(res.queryResults)
 })
-const register = asyncHandlerWrapper(async (req, res, next) => {
-    const customer = await Customer.create({
-        ...req.body
-    })
-    sendJwtToCLient(customer, res);
-})
+
 const getCustomer = asyncHandlerWrapper(async (req, res, next) =>{
     const customer = await Customer.findById(req.user.id);
     res.status(200)
@@ -92,17 +87,7 @@ const resetPassword = asyncHandlerWrapper(async(req, res, next) => {
     res.status(200).send("parola değiştirme işlemi başarılı")
 })
 
-const login = asyncHandlerWrapper(async (req, res, next) => {
-    const {email, password} = req.body;
-    if(!validateInputs(email, password)){
-        return next( new CustomError("e-posta ya da şifre eksik", 401));
-    }
-    const customer = await Customer.findOne({email}).select("+password");
-    if(!comparePassword(password, customer.password)){
-        return next(new CustomError("hatalı parola", 401))
-    }
-    sendJwtToCLient(customer, res);
-})
+
 const update = asyncHandlerWrapper(async (req, res, next)=>{
         
     const {customer_id} = req.params;
@@ -138,8 +123,6 @@ const deleteAllCustomer = asyncHandlerWrapper(async (req, res, next)=> {
 })
 
 module.exports = {
-    register,
-    login,
     update,
     deleteCustomerById,
     deleteAllCustomer,

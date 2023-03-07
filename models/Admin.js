@@ -8,6 +8,12 @@ const AdminSchema = new mongoose.Schema({
         required:true,
         unique: true
     },
+    email: {
+        type: String,
+        required: [true, "kullanıcı email alanı boş bırakılamaz"],
+        unique: true,
+        match: [/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/, "uygun olmayan mail format"]
+    },
     password: {
         type:String,
         required:true,

@@ -1,6 +1,7 @@
 const express = require("express");
-const { register, login, deleteAllCustomer, getCustomer, addAddress, getOrders, forgotPassword,resetPassword} = require("../controllers/customer");
-const {getAccessToRoute, getCustomerAccess} = require("../middlewares/authorization/auth")
+const { deleteAllCustomer, getCustomer, addAddress, getOrders, forgotPassword,resetPassword} = require("../controllers/customer");
+const {getAccessToRoute, getCustomerAccess} = require("../middlewares/authorization/auth");
+const {register, login } = require("../controllers/auth");
 const router = express.Router();
 
 router.post("/register", register)

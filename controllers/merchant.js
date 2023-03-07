@@ -13,23 +13,7 @@ const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
         data: suppliers
     })
 })
-const register = asyncHandlerWrapper(async (req, res, next) => {
-    const supplier = await Supplier.create({
-        ...req.body
-    })
-    sendJwtToCLient(supplier, res);
-})
-const login = asyncHandlerWrapper(async (req, res, next) => {
-    const { email, password } = req.body;
-    if (!validateInputs(email, password)) {
-        return next(new CustomError("e-posta ya da şifre eksik", 401));
-    }
-    const supplier = await Supplier.findOne({ email }).select("+password");
-    if (!comparePassword(password, supplier.password)) {
-        return next(new CustomError("hatalı parola", 401))
-    }
-    sendJwtToCLient(supplier, res);
-})
+
 const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
     const confirmEmail = req.body.email;
     const supplier = await Supplier.findOne({email: confirmEmail});
@@ -117,8 +101,6 @@ const updateTransaction = asyncHandlerWrapper(async (req, res, next) => {
 })
 
 module.exports = {
-    register,
-    login,
     getTransaction,
     updateTransaction,
     resetPassword,
