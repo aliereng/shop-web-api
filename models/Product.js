@@ -26,6 +26,16 @@ const ProductModel = new mongoose.Schema({
         type: [String],
 
     },
+    size: {
+        type: String,
+    },
+    color: {
+        type: String
+    },
+    price: {
+        type: Number,
+        default: 0
+    },
     supplier: {
         type: mongoose.Schema.ObjectId,
         ref: "Supplier"
