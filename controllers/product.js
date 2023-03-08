@@ -21,6 +21,7 @@ const addProduct = asyncHandlerWrapper(async (req, res, next)=>{
     })
     product.stocks.push(await Stock.create({
         product: product._id,
+        type:"base",
         ...req.body
     }));
     product.save();

@@ -86,8 +86,31 @@ const updateStock = asyncHandlerWrapper(async (req, res, next) => {
 
 })
 const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
-   // düzenlenecek
+    const { productId, stockId } = req.body;
+    const stock = await Stock.findById(stockId);
+    const product = await Product.findById(productId);
+    if (stock.type == "base") {
+        await Stock.findByIdAndRemove(stockId);
+        setTimeout(async() => {
+            const stock = await Stock.findOneAndUpdate({product: productId}, {
+                type:"base"
+            }, {
+                new: true,
+                runValidators: true
+            })
+            product.price = stock.price;
+            product.size = stock.size;
+            product.color = stock.color;
+            await product.save();
 
+        }, 1000);
+
+    } else {
+        await Stock.findByIdAndRemove(stockId);
+    }
+    res.status(200).json({
+        success: true
+    })
 })
 
 module.exports = {

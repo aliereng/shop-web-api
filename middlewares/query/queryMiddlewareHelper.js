@@ -21,6 +21,13 @@ const sortHelper = function(query, req){
     if (sortKey === "oldest") {
         return query.sort("createdAt") 
     }
+
+    if(sortKey === "cheap") {
+        return query.sort("price")
+    }
+    if(sortKey === "expensive") {
+        return query.sort("-price")
+    }
    
     return query.sort("-createdAt")
 
