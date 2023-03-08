@@ -1,11 +1,10 @@
 const asyncHandlerWrapper = require("express-async-handler")
-const { sendJwtToCLient } = require("../helpers/auth/tokenHelpers");
-const { validateInputs, comparePassword } = require("../helpers/login/loginHelpers")
 const CustomError = require("../helpers/error/CustomError")
 const Supplier = require("../models/Supplier")
 const Transaction = require("../models/Transaction")
 const Order = require("../models/Order")
-
+const Product = require("../models/Product")
+const Stock = require("../models/Stock")
 const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
     const suppliers = await Supplier.find();
     res.status(200).json({
@@ -14,67 +13,23 @@ const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
     })
 })
 
-const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
-    const confirmEmail = req.body.email;
-    const supplier = await Supplier.findOne({email: confirmEmail});
-    if(!supplier) {
-        return next(new CustomError("girilen email bilgisi ile eşleşen hesap bulunamadı", 400))
-    }
-    const resetPasswordToken = supplier.getResetPasswordTokenFromUser();
-    
-    const resetPasswordUrl= `http://localhost:3000/api/customer/resetpassword?resetPasswordToken=${resetPasswordToken}`;
-    const emailTemplate = `
-        <h2>Reset Your Password</h2>
-        <p>This <a href='${resetPasswordUrl}' target='_blank'>link</a> will expire in 1 hour.</p>
-    `;
-    
-    try {
-        
-        await sendEmail({
-            from: process.env.SMTP_USER,
-            to: confirmEmail,
-            subject:"Reset Password",
-            html: emailTemplate
-        })
-        res.status(200)
-        .send("eposta adresinize sıfırlama maili gönderildi")
-    } catch (error) {
-        supplier.resetPasswordExpire = undefined;
-        supplier.resetPasswordToken = undefined;
-        await customer.save();
-        return next(new CustomError("mail gönderilemedi. hata: "+ error, 500))
-    }
-})
-
-const resetPassword = asyncHandlerWrapper(async(req, res, next) => {
-    const {resetPasswordToken} = req.query;
-    const {password} = req.body;
-    const supplier = await Supplier.findOne({
-        resetPasswordToken: resetPasswordToken,
-        resetPasswordExpire: {$gt: Date.now()}
-    })
- 
-    if(!supplier) {
-        return next(new CustomError("süresi dolmuş ya da geçersiz token", 400))
-    }
-    supplier.password = password;
-    custosuppliermer.resetPasswordExpire = undefined;
-    custosuppliermer.resetPasswordToken = undefined;
-    await supplier.save();
-    res.status(200).send("parola değiştirme işlemi başarılı")
-})
 const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
     Transaction.find({ supplier: req.user.id }).populate({
-        path: "order", populate:[
+        path: "order", populate: [
             { path: "product", select: "name" },
             { path: "stock", select: "size color price" },
-            { path: "deliveredAddress", select:"addressTitle, address", populate:{
-                path:"user", model:"Customer", select:"name surname email phone"
-            } },
-            { path: "invoiceAddress", select:"addressTitle, address", populate:{
-                path:"user", model:"Customer", select:"name surname email phone"
-            }  }
-    ]}
+            {
+                path: "deliveredAddress", select: "addressTitle, address", populate: {
+                    path: "user", model: "Customer", select: "name surname email phone"
+                }
+            },
+            {
+                path: "invoiceAddress", select: "addressTitle, address", populate: {
+                    path: "user", model: "Customer", select: "name surname email phone"
+                }
+            }
+        ]
+    }
     ).then(result => {
         res.status(200)
             .json({ data: result })
@@ -95,15 +50,50 @@ const updateTransaction = asyncHandlerWrapper(async (req, res, next) => {
         rawResult: true
     })
     res.status(200).json({
-        success:  true
+        success: true
     })
-    
+
+})
+const updateStock = asyncHandlerWrapper(async (req, res, next) => {
+    const { productId, stockId } = req.body
+
+    const product = await Product.findById(productId).populate({ path: "stocks", select: "size type status" });
+    if (req.body.type == "base") {
+        const stocks = await Stock.find({ product: productId });
+        stocks.map(async stock => {
+            await Stock.findByIdAndUpdate(stock, {
+                type: "other",
+            }, {
+                new: true,
+                runValidators: true
+            })
+        })
+
+    }
+    const stock = await Stock.findByIdAndUpdate(stockId, {
+        ...req.body
+    }, {
+        new: true,
+        runValidators: true
+    })
+    product.price = stock.price;
+    product.size = stock.size;
+    product.color = stock.color;
+    product.save();
+    res.status(200).json({
+        data: stock
+    })
+
+})
+const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
+   // düzenlenecek
+
 })
 
 module.exports = {
     getTransaction,
     updateTransaction,
-    resetPassword,
-    forgotPassword,
-    getAllSuppliers
+    getAllSuppliers,
+    updateStock,
+    deleteStock
 }

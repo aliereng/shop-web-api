@@ -1,8 +1,4 @@
 const asyncHandlerWrapper = require("express-async-handler")
-const {sendJwtToCLient} = require("../helpers/auth/tokenHelpers");
-const {validateInputs, comparePassword} = require("../helpers/login/loginHelpers");
-const CustomError = require("../helpers/error/CustomError")
-const sendEmail = require("../helpers/libraries/sendEmail")
 const Customer = require("../models/Customer");
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");

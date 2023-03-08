@@ -32,4 +32,13 @@ const StockModel = new mongoose.Schema({
    
 })
 
+StockModel.methods.updateProductBaseStock =  function(productId){
+    const product =  Product.findById(productId);
+    product.stocks[0].type = "base";
+        product.size = this.size;
+        product.color = this.color;
+        product.price = this.price
+         product.save();
+}
+
 module.exports = mongoose.model("Stock", StockModel)

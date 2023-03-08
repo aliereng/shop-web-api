@@ -12,7 +12,7 @@ const Product = require("../models/Product");
 const router = express.Router();
 router.post("/login", login);
 router.post("/register",register);
-router.get("/products",[getAccessToRoute, getAdminAccess, productQueryMiddleware(Product, {
+router.get("/products",[ productQueryMiddleware(Product, {
     population: [
         {path:"supplier", select:"name surname shopName email phone taxNumber"},
         {path:"stocks", select:"size color piece price type"}
