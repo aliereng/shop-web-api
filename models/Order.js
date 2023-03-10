@@ -52,7 +52,12 @@ const OrderModel = new mongoose.Schema({
 OrderModel.post("save", async function () {
     let stock = await Stock.findById(this.stock);
     stock.piece -= this.count;
-    stock.save();
+    if(stock.piece == 0){
+        await Stock.findByIdAndDelete(this.stock);
+    }else{
+        stock.save();
+    }
+    
     await Transaction.create({
         supplier: this.supplier,
         order: this

@@ -14,15 +14,17 @@ const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
     })
 });
 const addProduct = asyncHandlerWrapper(async (req, res, next)=>{
-    
+    const reqProductData = JSON.parse(req.body.product);
     const product = await Product.create({
         supplier: req.user.id,
-        ...req.body
+        image:req.image,
+        ...reqProductData
     })
     product.stocks.push(await Stock.create({
         product: product._id,
         type:"base",
-        ...req.body
+        image:req.image,
+        ...reqProductData
     }));
     product.save();
    
@@ -37,27 +39,26 @@ const createStockAndAddProduct = asyncHandlerWrapper(async (req,res,next) =>{
     
     const product = await Product.findById(product_id).populate({path:"stocks", select: "size type status"});
     const stocks = await Stock.find({product: product_id});
-    
-    if(req.body.type == "base"){
+    const reqStockObject = JSON.parse(req.body.stock)
+    if(reqStockObject.type == "base"){
         stocks.map(async stock => {
             await Stock.findByIdAndUpdate(stock,{
-                type: "other",                
+                type: "other"                
             },{
                 new:true,
                 runValidators:true
             })
         })
-        product.price = req.body.price;
-        product.size = req.body.size;
-        product.color = req.body.color;
+        product.price = reqStockObject.price;
+        product.size = reqStockObject.size;
+        product.color = reqStockObject.color;
+        product.image = req.image
     }
-    // console.log(JSON.stringify(req.body.data))
-    const stock = await Stock.create({
+    product.stocks.push(await Stock.create({
         product: product_id,
         image: req.image,
-        ...req.body.data
-    })
-    product.stocks.push(stock);
+        ...reqStockObject
+    }));
     product.save();
     res.status(200).json({
         data: product

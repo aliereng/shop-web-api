@@ -13,7 +13,7 @@ const productQueryMiddleware = function(model, options){
         query = paginationResult.query;
         const pagination = paginationResult.pagination;
 
-        const queryResults = await query;
+        const queryResults = await query.where('price').gt(100);
         res.queryResults = {
             success: true,
             totalPageCount: Math.ceil(total/ queryResults.length),
@@ -23,7 +23,7 @@ const productQueryMiddleware = function(model, options){
             data: queryResults
         }
         next();
-    })
+    })  
 }
 module.exports = {
     productQueryMiddleware

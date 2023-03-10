@@ -42,7 +42,7 @@ StockModel.methods.updateProductBaseStock =  function(productId){
         product.size = this.size;
         product.color = this.color;
         product.price = this.price
-         product.save();
+        product.save();
 }
 
 module.exports = mongoose.model("Stock", StockModel)
