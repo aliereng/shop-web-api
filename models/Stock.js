@@ -29,7 +29,10 @@ const StockModel = new mongoose.Schema({
         type: Boolean,
         default:true
     },
-    image: String
+    image:{
+        type: String,
+
+    }
    
 })
 

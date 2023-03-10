@@ -41,7 +41,7 @@ const createStockAndAddProduct = asyncHandlerWrapper(async (req,res,next) =>{
     if(req.body.type == "base"){
         stocks.map(async stock => {
             await Stock.findByIdAndUpdate(stock,{
-                type: "other"
+                type: "other",                
             },{
                 new:true,
                 runValidators:true
@@ -51,9 +51,11 @@ const createStockAndAddProduct = asyncHandlerWrapper(async (req,res,next) =>{
         product.size = req.body.size;
         product.color = req.body.color;
     }
+    // console.log(JSON.stringify(req.body.data))
     const stock = await Stock.create({
         product: product_id,
-        ...req.body
+        image: req.image,
+        ...req.body.data
     })
     product.stocks.push(stock);
     product.save();
@@ -61,6 +63,9 @@ const createStockAndAddProduct = asyncHandlerWrapper(async (req,res,next) =>{
         data: product
     })
 })
+// const addStockImage = asyncHandlerWrapper(async (req,res,next) =>{
+//     await Stock.findByIdAndUpdate(stock)
+// })
 const update = asyncHandlerWrapper(async (req, res, next)=>{
         
     const {product_id} = req.params;
