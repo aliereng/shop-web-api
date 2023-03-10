@@ -11,30 +11,40 @@ const getAll = asyncHandlerWrapper(async (req, res, next)=>{
 });
 const add = asyncHandlerWrapper(async (req, res, next)=>{
    
-    await Category.create({
+    const category = await Category.create({
         ...req.body
     })
-    res.status(200).send("tamamlandı");
+    res.status(200).json({
+        success: true,
+        data: category
+    });
     
 });
 const update = asyncHandlerWrapper(async (req, res, next)=>{
     const {category_id} = req.params
-    await Category.findByIdAndUpdate(category_id, req.body,{
+    const category = await Category.findByIdAndUpdate(category_id, req.body,{
         new: true,
         runValidators: true
     })
-    res.status(200)
+    res.status(200).json({
+        success: true,
+        data: category
+    })
     
 });
 const remove = asyncHandlerWrapper(async (req, res, next)=>{
     const {category_id} = req.params
     await Category.findByIdAndDelete(category_id)
-    res.status(200)
+    res.status(200).json({
+        success: true
+    })
     
 });
 const removeAll = asyncHandlerWrapper( async (req, res, next) => {
     await Category.deleteMany();
-    res.status(200).send("tümü silindi")
+    res.status(200).json({
+        success:true
+    })
 })
 
 

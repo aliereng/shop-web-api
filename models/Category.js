@@ -6,11 +6,7 @@ const CategoryModel = new mongoose.Schema({
         required: [true, "kategori ad alanı boş bırakılamaz"]
     },
     subCategories: [
-        {
-            name:{
-                type: String
-            }
-        }
+        String
     ],
     slug: String
 })
@@ -20,6 +16,13 @@ CategoryModel.pre("save", function (next) {
     if (!this.isModified("name")) {
         next()
     }
+    let newName ="";
+    const categoryName = this.name.toLowerCase().split(" ");
+    categoryName.map((item) => {
+        newName += `${item[0].toLocaleUpperCase("TR")+ item.slice(1)} `;
+        
+    })
+    this.name = newName.trim();
     this.slug = this.makeSlug();
     next();
 

@@ -12,7 +12,6 @@ const register = asyncHandlerWrapper(async(req, res, next) => {
     })
     sendJwtToCLient(user, res)
 })
-
 const login = asyncHandlerWrapper(async(req, res, next) => {
     const model = controleAndReturnModel(req.body.model);
     const {email, password} = req.body;
@@ -57,7 +56,6 @@ const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
         return next(new CustomError("mail gönderilemedi. hata: "+ error, 500))
     }
 })
-
 const resetPassword = asyncHandlerWrapper(async(req, res, next) => {
     const model = controleAndReturnModel(req.body.model);
     const {resetPasswordToken} = req.query;

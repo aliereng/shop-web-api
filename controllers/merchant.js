@@ -12,7 +12,6 @@ const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
         data: suppliers
     })
 })
-
 const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
     Transaction.find({ supplier: req.user.id }).populate({
         path: "order", populate: [
