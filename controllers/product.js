@@ -13,7 +13,7 @@ const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
         data: products
     })
 });
-const addProduct = asyncHandlerWrapper(async (req, res, next)=>{
+const addProduct = (async (req, res, next)=>{
     const reqProductData = JSON.parse(req.body.product);
     const product = await Product.create({
         supplier: req.user.id,

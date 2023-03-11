@@ -30,6 +30,7 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
     const cart = await Cart.findOne({customer: req.user.id}).populate({path:"items", populate: {path:"product", select:"supplier"}});
     cart.items.map(async item => {
         await Order.create({
+            customer: req.user.id,
             product:item.product,
             stock: item.stock,
             count: item.count,

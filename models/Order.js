@@ -2,7 +2,12 @@ const mongoose = require("mongoose");
 const Stock = require("./Stock");
 const Cart = require("./Cart")
 const Transaction = require("./Transaction");
+const Product = require("./Product");
 const OrderModel = new mongoose.Schema({
+    customer: {
+        type: mongoose.Schema.ObjectId,
+        ref:"Customer"
+    },
     product: {
         type: mongoose.Schema.ObjectId,
         ref: "Product"
@@ -50,14 +55,35 @@ const OrderModel = new mongoose.Schema({
 
 })
 OrderModel.post("save", async function () {
-    let stock = await Stock.findById(this.stock);
+    
+    const stock = await Stock.findOne(this.stock);
+    const product = await Product.findOne(this.product).populate({path:"stocks", select:"size color piece price type status"})
     stock.piece -= this.count;
     if(stock.piece == 0){
-        await Stock.findByIdAndDelete(this.stock);
-    }else{
-        stock.save();
+        stock.status = false;
+        stock.type ="other";
     }
-    
+    await stock.save()
+    let newBaseStock;
+    for(let i = 0; i<product.stocks.length; i++){
+        console.log(product.stocks[i].status);
+        if(product.stocks[i].status ==true) {
+            
+            newBaseStock = product.stocks[i];
+            await Stock.findByIdAndUpdate(product.stocks[i]._id, {
+                type:"base"
+            },{
+                new:true,
+                runValidators:true
+            })
+            break;
+        }
+    }
+    product.size = newBaseStock.size;
+    product.color = newBaseStock.color;
+    product.price = newBaseStock.price;
+    product.image = newBaseStock.image;
+    await product.save();
     await Transaction.create({
         supplier: this.supplier,
         order: this

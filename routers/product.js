@@ -7,7 +7,7 @@ const router = express.Router();
 
 
 router.get("/merchant",[getAccessToRoute, getSupplierAccess], getAllProductsBySupplier);
-router.post("/add", [getAccessToRoute, getSupplierAccess], addProduct)
+router.post("/add", [getAccessToRoute, getSupplierAccess, imageUpload.single("image")], addProduct)
 router.post("/addstock", [getAccessToRoute, getSupplierAccess, existStock, imageUpload.single("image")], createStockAndAddProduct)
 router.put("/:product_id/update", [getAccessToRoute, getSupplierAccess], update)
 router.delete("/:product_id/delete",[getAccessToRoute, getSupplierAccess], deleteProductById)

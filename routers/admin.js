@@ -15,7 +15,7 @@ router.post("/register",register);
 router.get("/products",[ productQueryMiddleware(Product, {
     population: [
         {path:"supplier", select:"name surname shopName email phone taxNumber"},
-        {path:"stocks", select:"size color piece price type"}
+        {path:"stocks", select:"size color piece price type status"}
     ]
 })], getAllProducts);
 router.get("/customers",[getAccessToRoute, getAdminAccess, customerQueryMiddleware(Customer,{})], getAllCustomers);

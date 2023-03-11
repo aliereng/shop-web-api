@@ -59,7 +59,7 @@ const ProductModel = new mongoose.Schema({
             ref: "Stock"
         }
     ],
-    show: {
+    visible: {
         type: Boolean,
         default: true
     }

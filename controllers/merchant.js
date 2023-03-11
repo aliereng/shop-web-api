@@ -78,6 +78,7 @@ const updateStock = asyncHandlerWrapper(async (req, res, next) => {
     product.price = stock.price;
     product.size = stock.size;
     product.color = stock.color;
+    product.image = stock.image
     product.save();
     res.status(200).json({
         data: stock
@@ -100,6 +101,7 @@ const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
             product.price = stock.price;
             product.size = stock.size;
             product.color = stock.color;
+            product.image = stock.image
             await product.save();
 
         }, 1000);
