@@ -1,4 +1,5 @@
-const asyncHandlerWrapper = require("express-async-handler")
+const asyncHandlerWrapper = require("express-async-handler");
+const Category = require("../models/Category");
 
 const Product = require("../models/Product")
 const Stock = require("../models/Stock")
@@ -27,7 +28,18 @@ const addProduct = (async (req, res, next)=>{
         ...reqProductData
     }));
     product.save();
-   
+    const {categories} = reqProductData;
+    const currentCategories = await Category.find();
+
+    categories.map(async (category, index)=> {
+        if(!currentCategories.includes(category)){
+            const parentCategory = await Category.findOne({name: category[index-1]});
+            await Category.create({
+                parentId: parentCategory._id,
+                name: category
+            })
+        }
+    })
     res.status(200).
     json({
         data: product

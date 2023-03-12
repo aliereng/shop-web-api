@@ -40,12 +40,7 @@ const ProductModel = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "Supplier"
     },
-    category:
-    {
-        type: mongoose.Schema.ObjectId,
-        ref: "Category"
-    }
-    ,
+    categories:[String],
     rating: Number,
     comments: [
         {
