@@ -10,12 +10,11 @@ const cart = require("./cart")
 
 const router = express.Router();
 router.use("/admin", admin)
-router.use("/", product);
-router.use("/products", product)
-router.use("/categories", category)
-router.use("/customer", customer)
-router.use("/merchant", merchant)
-router.use("/cart", cart)
+router.use("/products", product);
+router.use("/categories", category);
+router.use("/customer", customer);
+router.use("/merchant", merchant);
+router.use("/cart", cart);
 router.use("/transaction", transaction);
-router.use("/shipper", shipper)
+router.use("/shipper", shipper);
 module.exports = router;

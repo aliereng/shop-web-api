@@ -14,6 +14,15 @@ const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
         data: products
     })
 });
+const getProductsByCategory = asyncHandlerWrapper(async(req, res, next)=> {
+    const {slug} = req.params
+    const category = await Category.findOne({slug})
+    const products = await Product.find({categories:category._id});
+    res.status(200).json({
+        success: true,
+        data: products
+    })
+})
 const addProduct = (async (req, res, next)=>{
     const reqProductData = JSON.parse(req.body.product);
     const product = await Product.create({
@@ -28,18 +37,6 @@ const addProduct = (async (req, res, next)=>{
         ...reqProductData
     }));
     product.save();
-    const {categories} = reqProductData;
-    const currentCategories = await Category.find();
-
-    categories.map(async (category, index)=> {
-        if(!currentCategories.includes(category)){
-            const parentCategory = await Category.findOne({name: category[index-1]});
-            await Category.create({
-                parentId: parentCategory._id,
-                name: category
-            })
-        }
-    })
     res.status(200).
     json({
         data: product
@@ -127,5 +124,6 @@ module.exports = {
     update,
     deleteAllProduct,
     deleteProductById,
-    getAllProductsBySupplier
+    getAllProductsBySupplier,
+    getProductsByCategory
 }

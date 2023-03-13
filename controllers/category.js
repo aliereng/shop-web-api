@@ -1,51 +1,43 @@
 const asyncHandlerWrapper = require("express-async-handler")
 const Category = require("../models/Category")
-const Brand = require("../models/Brand");
-const SubCtaegory = require("../models/SubCtaegory");
-const getAll = asyncHandlerWrapper(async (req, res, next)=>{
+
+const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
     const categories = await Category.find();
-
     res.status(200)
-    .json({
-        data: categories
-    })
-});
+        .json({
+            success:true,
+            data: categories
+        })
+})
+const getCategoryById = asyncHandlerWrapper(async(req, res,next)=> {
+    const {categoryId} = req.body
+    const category = await Category.findById(categoryId).populate({path:"children", select:"name"});
 
-const add = asyncHandlerWrapper(async (req, res, next)=>{
-    let {categories} = req.body;
-    seperateCategory(categories);
-    // let names = [];
-    // let parents = [];
-    // let currentCategories = await Category.find();
-    
-    // currentCategories.map(currentCategory => {
-    //     names.push(currentCategory.name);
-    //     parents.push(currentCategory.parentId)
-    // })
-    // categories.map(async (category, index)=> {
-    //     if(!names.includes(category)){
-    //         names = []
-    //         await Category.create({
-    //             parentId: categories[index-1],
-    //             name:category
-    //         })
-    //     }
-    //     // else if(names.includes(category) && !parents.includes(categories[index])){
-    //     //     // names = []
-    //     //     await Category.create({
-    //     //         parentId: categories[index-1],
-    //     //         name:category
-    //     //     })
-    //     // }
-    // })
-    // console.log(names)
     res.status(200).json({
-        success:true 
+        success: true, 
+        data: category
+    })
+})
+
+const add = asyncHandlerWrapper(async (req, res, next) => {
+    let { name, parentId } = req.body;
+    const category = await Category.create({
+        parentId,
+        name
+    })
+    if (parentId != null) {
+        const parentCategory = await Category.findById(parentId);
+        parentCategory.children.push(category?._id)
+        await parentCategory.save();
+    }
+    res.status(200).json({
+        success: true,
+        data: category
     })
 });
-const update = asyncHandlerWrapper(async (req, res, next)=>{
-    const {category_id} = req.params
-    const category = await Category.findByIdAndUpdate(category_id, req.body,{
+const update = asyncHandlerWrapper(async (req, res, next) => {
+    const { category_id } = req.params
+    const category = await Category.findByIdAndUpdate(category_id, req.body, {
         new: true,
         runValidators: true
     })
@@ -53,26 +45,27 @@ const update = asyncHandlerWrapper(async (req, res, next)=>{
         success: true,
         data: category
     })
-    
+
 });
-const remove = asyncHandlerWrapper(async (req, res, next)=>{
-    const {category_id} = req.params
+const remove = asyncHandlerWrapper(async (req, res, next) => {
+    const { category_id } = req.params
     await Category.findByIdAndDelete(category_id)
     res.status(200).json({
         success: true
     })
-    
+
 });
-const removeAll = asyncHandlerWrapper( async (req, res, next) => {
+const removeAll = asyncHandlerWrapper(async (req, res, next) => {
     await Category.deleteMany();
     res.status(200).json({
-        success:true
+        success: true
     })
 })
 
 
 module.exports = {
-    getAll,
+    getAllCategory,
+    getCategoryById,
     add,
     update,
     remove,
