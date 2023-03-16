@@ -1,0 +1,738 @@
+[{
+  "_id": {
+    "$oid": "640f64964e3c24b3f0a575bc"
+  },
+  "parentId": "null",
+  "name": "Elektronik",
+  "children": [
+    {
+      "$oid": "640f665fd8c1346b9c7d305a"
+    },
+    {
+      "$oid": "640f68eb2264ce320d087201"
+    },
+    {
+      "$oid": "640f691e2264ce320d087206"
+    },
+    {
+      "$oid": "640f69312264ce320d08720a"
+    },
+    {
+      "$oid": "640f693f2264ce320d08720e"
+    },
+    {
+      "$oid": "640f694d2264ce320d087212"
+    },
+    {
+      "$oid": "640f695f2264ce320d087216"
+    },
+    {
+      "$oid": "640f69872264ce320d08721a"
+    },
+    {
+      "$oid": "640f69962264ce320d08721e"
+    }
+  ],
+  "slug": "elektronik",
+  "__v": 9
+},{
+  "_id": {
+    "$oid": "640f665fd8c1346b9c7d305a"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Bilgisayar",
+  "children": [
+    {
+      "$oid": "640f6799d8c1346b9c7d305f"
+    },
+    {
+      "$oid": "640f67a7d8c1346b9c7d3063"
+    },
+    {
+      "$oid": "640f67d7d8c1346b9c7d3068"
+    },
+    {
+      "$oid": "640f67e4d8c1346b9c7d306c"
+    },
+    {
+      "$oid": "640f67fcd8c1346b9c7d3070"
+    },
+    {
+      "$oid": "640f681bd8c1346b9c7d3074"
+    },
+    {
+      "$oid": "640f6845d8c1346b9c7d3079"
+    },
+    {
+      "$oid": "640f6850d8c1346b9c7d307d"
+    },
+    {
+      "$oid": "640f6891d8c1346b9c7d3082"
+    },
+    {
+      "$oid": "640f689ad8c1346b9c7d3086"
+    },
+    {
+      "$oid": "640f68a0d8c1346b9c7d308a"
+    }
+  ],
+  "slug": "bilgisayar",
+  "__v": 11
+},{
+  "_id": {
+    "$oid": "640f6799d8c1346b9c7d305f"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Dizüstü Bilgisayar",
+  "children": [
+    {
+      "$oid": "640f6d3a2264ce320d0872af"
+    },
+    {
+      "$oid": "640f6d422264ce320d0872b3"
+    },
+    {
+      "$oid": "640f6d522264ce320d0872b7"
+    }
+  ],
+  "slug": "dizustu-bilgisayar",
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "640f67a7d8c1346b9c7d3063"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Masaüstü Bilgisayar",
+  "children": [
+    {
+      "$oid": "640f6d8c2264ce320d0872bc"
+    },
+    {
+      "$oid": "640f6d932264ce320d0872c0"
+    },
+    {
+      "$oid": "640f6da82264ce320d0872c4"
+    }
+  ],
+  "slug": "masaustu-bilgisayar",
+  "__v": 3
+},{
+  "_id": {
+    "$oid": "640f67d7d8c1346b9c7d3068"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Tablet",
+  "children": [],
+  "slug": "tablet",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f67e4d8c1346b9c7d306c"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Oyuncu Özel",
+  "children": [],
+  "slug": "oyuncu-ozel",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f67fcd8c1346b9c7d3070"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Bilgisayar Bileşenleri",
+  "children": [],
+  "slug": "bilgisayar-bilesenleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f681bd8c1346b9c7d3074"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Ağ Ekipmanları",
+  "children": [],
+  "slug": "ag-ekipmanlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6845d8c1346b9c7d3079"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Çevre Birimleri",
+  "children": [],
+  "slug": "cevre-birimleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6850d8c1346b9c7d307d"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Yazılım Ürünleri",
+  "children": [],
+  "slug": "yazilim-urunleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6891d8c1346b9c7d3082"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Veri Depolama",
+  "children": [],
+  "slug": "veri-depolama",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f689ad8c1346b9c7d3086"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Aksesuar",
+  "children": [],
+  "slug": "aksesuar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f68a0d8c1346b9c7d308a"
+  },
+  "parentId": "640f665fd8c1346b9c7d305a",
+  "name": "Kulaklık",
+  "children": [],
+  "slug": "kulaklik",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f68eb2264ce320d087201"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Yazıcılar & Projeksiyon",
+  "children": [
+    {
+      "$oid": "640f69c52264ce320d087223"
+    },
+    {
+      "$oid": "640f69d22264ce320d087227"
+    },
+    {
+      "$oid": "640f69e62264ce320d08722b"
+    },
+    {
+      "$oid": "640f69f02264ce320d08722f"
+    }
+  ],
+  "slug": "yazicilar-and-projeksiyon",
+  "__v": 4
+},{
+  "_id": {
+    "$oid": "640f691e2264ce320d087206"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Telefon & Telefon Aksesuarları",
+  "children": [
+    {
+      "$oid": "640f6a1d2264ce320d087234"
+    },
+    {
+      "$oid": "640f6a542264ce320d087238"
+    },
+    {
+      "$oid": "640f6a5b2264ce320d08723c"
+    },
+    {
+      "$oid": "640f6a6c2264ce320d087240"
+    },
+    {
+      "$oid": "640f6a712264ce320d087244"
+    },
+    {
+      "$oid": "640f6a782264ce320d087248"
+    },
+    {
+      "$oid": "640f6a832264ce320d08724c"
+    },
+    {
+      "$oid": "640f6a992264ce320d087250"
+    }
+  ],
+  "slug": "telefon-and-telefon-aksesuarlari",
+  "__v": 8
+},{
+  "_id": {
+    "$oid": "640f69312264ce320d08720a"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Tv, Görüntü & Ses Sistemleri",
+  "children": [
+    {
+      "$oid": "640f6b192264ce320d087255"
+    },
+    {
+      "$oid": "640f6b212264ce320d087259"
+    },
+    {
+      "$oid": "640f6b392264ce320d08725d"
+    },
+    {
+      "$oid": "640f6b442264ce320d087261"
+    },
+    {
+      "$oid": "640f6b502264ce320d087265"
+    },
+    {
+      "$oid": "640f6b5e2264ce320d087269"
+    },
+    {
+      "$oid": "640f6b6a2264ce320d08726d"
+    },
+    {
+      "$oid": "640f6b7a2264ce320d087271"
+    },
+    {
+      "$oid": "640f6b8f2264ce320d087275"
+    },
+    {
+      "$oid": "640f6b9d2264ce320d087279"
+    }
+  ],
+  "slug": "tv,-goruntu-and-ses-sistemleri",
+  "__v": 10
+},{
+  "_id": {
+    "$oid": "640f693f2264ce320d08720e"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Beyaz Eşya",
+  "children": [
+    {
+      "$oid": "640f6bdb2264ce320d08727e"
+    },
+    {
+      "$oid": "640f6bef2264ce320d087282"
+    },
+    {
+      "$oid": "640f6c022264ce320d087286"
+    },
+    {
+      "$oid": "640f6c0d2264ce320d08728a"
+    },
+    {
+      "$oid": "640f6c182264ce320d08728e"
+    },
+    {
+      "$oid": "640f6c252264ce320d087292"
+    },
+    {
+      "$oid": "640f6c312264ce320d087296"
+    },
+    {
+      "$oid": "640f6c3c2264ce320d08729a"
+    },
+    {
+      "$oid": "640f6c452264ce320d08729e"
+    },
+    {
+      "$oid": "640f6c512264ce320d0872a2"
+    },
+    {
+      "$oid": "640f6c5a2264ce320d0872a6"
+    },
+    {
+      "$oid": "640f6c632264ce320d0872aa"
+    }
+  ],
+  "slug": "beyaz-esya",
+  "__v": 12
+},{
+  "_id": {
+    "$oid": "640f694d2264ce320d087212"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Klima ve İklimlendirme",
+  "children": [],
+  "slug": "klima-ve-iklimlendirme",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f695f2264ce320d087216"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Elektrikli Ev Aletleri",
+  "children": [],
+  "slug": "elektrikli-ev-aletleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69872264ce320d08721a"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Foto & Kamera",
+  "children": [],
+  "slug": "foto-and-kamera",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69962264ce320d08721e"
+  },
+  "parentId": "640f64964e3c24b3f0a575bc",
+  "name": "Oyun & Oyun Konsolları",
+  "children": [],
+  "slug": "oyun-and-oyun-konsollari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69c52264ce320d087223"
+  },
+  "parentId": "640f68eb2264ce320d087201",
+  "name": "Yazıcılar",
+  "children": [],
+  "slug": "yazicilar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69d22264ce320d087227"
+  },
+  "parentId": "640f68eb2264ce320d087201",
+  "name": "Sarf Malzemeleri",
+  "children": [],
+  "slug": "sarf-malzemeleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69e62264ce320d08722b"
+  },
+  "parentId": "640f68eb2264ce320d087201",
+  "name": "Projeksiyon Cihazı",
+  "children": [],
+  "slug": "projeksiyon-cihazi",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f69f02264ce320d08722f"
+  },
+  "parentId": "640f68eb2264ce320d087201",
+  "name": "Projeksiyon Ekipmanları",
+  "children": [],
+  "slug": "projeksiyon-ekipmanlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a1d2264ce320d087234"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Cep Telefonu",
+  "children": [],
+  "slug": "cep-telefonu",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a542264ce320d087238"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Akıllı Saatler",
+  "children": [],
+  "slug": "akilli-saatler",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a5b2264ce320d08723c"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Akıllı Bileklikler",
+  "children": [],
+  "slug": "akilli-bileklikler",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a6c2264ce320d087240"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Powerbank",
+  "children": [],
+  "slug": "powerbank",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a712264ce320d087244"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Kılıflar",
+  "children": [],
+  "slug": "kiliflar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a782264ce320d087248"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Şarj Cihazları",
+  "children": [],
+  "slug": "sarj-cihazlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a832264ce320d08724c"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Ekran Koruyucular",
+  "children": [],
+  "slug": "ekran-koruyucular",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6a992264ce320d087250"
+  },
+  "parentId": "640f691e2264ce320d087206",
+  "name": "Araç İçi Ekipmanlar",
+  "children": [],
+  "slug": "arac-ici-ekipmanlar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b192264ce320d087255"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Televizyon",
+  "children": [],
+  "slug": "televizyon",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b212264ce320d087259"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Güvenlik Sistemleri",
+  "children": [],
+  "slug": "guvenlik-sistemleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b392264ce320d08725d"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Bluetooth Hoparlör",
+  "children": [],
+  "slug": "bluetooth-hoparlor",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b442264ce320d087261"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Ev Sinema Sistemleri",
+  "children": [],
+  "slug": "ev-sinema-sistemleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b502264ce320d087265"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Uydu Alıcıları",
+  "children": [],
+  "slug": "uydu-alicilari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b5e2264ce320d087269"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Kablo ve Soketler",
+  "children": [],
+  "slug": "kablo-ve-soketler",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b6a2264ce320d08726d"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Müzik Sistemleri",
+  "children": [],
+  "slug": "muzik-sistemleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b7a2264ce320d087271"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Tv Aksesuarları",
+  "children": [],
+  "slug": "tv-aksesuarlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b8f2264ce320d087275"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Uydu Alıcısı Aksesuarları",
+  "children": [],
+  "slug": "uydu-alicisi-aksesuarlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6b9d2264ce320d087279"
+  },
+  "parentId": "640f69312264ce320d08720a",
+  "name": "Ev Sinema Hoparlörleri",
+  "children": [],
+  "slug": "ev-sinema-hoparlorleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6bdb2264ce320d08727e"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Ankastre Setler",
+  "children": [],
+  "slug": "ankastre-setler",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6bef2264ce320d087282"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Aspiratörler",
+  "children": [],
+  "slug": "aspiratorler",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c022264ce320d087286"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Bulaşık Makineleri",
+  "children": [],
+  "slug": "bulasik-makineleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c0d2264ce320d08728a"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Buzdolapları",
+  "children": [],
+  "slug": "buzdolaplari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c182264ce320d08728e"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Çamaşır Makineleri",
+  "children": [],
+  "slug": "camasir-makineleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c252264ce320d087292"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Davlumbazlar",
+  "children": [],
+  "slug": "davlumbazlar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c312264ce320d087296"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Derin Dondurucular",
+  "children": [],
+  "slug": "derin-dondurucular",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c3c2264ce320d08729a"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Fırınlar",
+  "children": [],
+  "slug": "firinlar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c452264ce320d08729e"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Mikrodalga Fırınlar",
+  "children": [],
+  "slug": "mikrodalga-firinlar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c512264ce320d0872a2"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Kurutma Makineleri",
+  "children": [],
+  "slug": "kurutma-makineleri",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c5a2264ce320d0872a6"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Ocaklar",
+  "children": [],
+  "slug": "ocaklar",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6c632264ce320d0872aa"
+  },
+  "parentId": "640f693f2264ce320d08720e",
+  "name": "Su Sebili",
+  "children": [],
+  "slug": "su-sebili",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6d3a2264ce320d0872af"
+  },
+  "parentId": "640f6799d8c1346b9c7d305f",
+  "name": "Notebook",
+  "children": [],
+  "slug": "notebook",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6d422264ce320d0872b3"
+  },
+  "parentId": "640f6799d8c1346b9c7d305f",
+  "name": "Oyun Bilgisayarları",
+  "children": [],
+  "slug": "oyun-bilgisayarlari",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6d522264ce320d0872b7"
+  },
+  "parentId": "640f6799d8c1346b9c7d305f",
+  "name": "İkisi Bir Arada",
+  "children": [],
+  "slug": "ikisi-bir-arada",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6d8c2264ce320d0872bc"
+  },
+  "parentId": "640f67a7d8c1346b9c7d3063",
+  "name": "All-in-One",
+  "children": [],
+  "slug": "all-in-one",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6d932264ce320d0872c0"
+  },
+  "parentId": "640f67a7d8c1346b9c7d3063",
+  "name": "Masaüstü",
+  "children": [],
+  "slug": "masaustu",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "640f6da82264ce320d0872c4"
+  },
+  "parentId": "640f67a7d8c1346b9c7d3063",
+  "name": "Mini Masaüstü",
+  "children": [],
+  "slug": "mini-masaustu",
+  "__v": 0
+}]

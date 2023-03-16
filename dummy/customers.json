@@ -1,0 +1,101 @@
+[{
+  "_id": {
+    "$oid": "64117adb75ddb6a65d15977b"
+  },
+  "name": "customer",
+  "surname": "one",
+  "email": "customerone@gmail.com",
+  "password": "$2a$10$/730edI8iFA/tvWSIZ/8nOXCehsQRoIJpo6M8qKzjzG/bz5BTw88y",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117afe75ddb6a65d15977f"
+  },
+  "name": "customer",
+  "surname": "two",
+  "email": "customertwo@gmail.com",
+  "password": "$2a$10$lPWzI9W7mWeko8Nug3csjOsVC3qbuaxIk98MRi0gv0U.iLNpmfgYm",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b1375ddb6a65d159783"
+  },
+  "name": "customer",
+  "surname": "three",
+  "email": "customerthree@gmail.com",
+  "password": "$2a$10$qW0Q5Z92PC7lyXc0VT1Fye7rg0LwxIDYxHAS4t6m02TuPhcCfkPxm",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b2075ddb6a65d159787"
+  },
+  "name": "customer",
+  "surname": "four",
+  "email": "customerfour@gmail.com",
+  "password": "$2a$10$rvbVXBVfuWwi5w4ZCFnP2ufMQ03boHlZKgMK2QjOjJz/IVdUP1YMG",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b2a75ddb6a65d15978b"
+  },
+  "name": "customer",
+  "surname": "five",
+  "email": "customerfive@gmail.com",
+  "password": "$2a$10$s7n0TUDgcezHQJ5I5jzdT.R0zAzs0riO2pUPGB8yqycSxlptQYz4a",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b3875ddb6a65d15978f"
+  },
+  "name": "customer",
+  "surname": "six",
+  "email": "customersix@gmail.com",
+  "password": "$2a$10$9/H9BKkqI3BaAtLeRI1UkuOPJUJXEOlbD9Tm1EFH7Zuf5QxHljryG",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b4175ddb6a65d159793"
+  },
+  "name": "customer",
+  "surname": "seven",
+  "email": "customerseven@gmail.com",
+  "password": "$2a$10$Gd31gJ1UlNkxe8ZGQOGsOuXLWEdQInkBJWQNsqOl5JLajugnCblhG",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117b7075ddb6a65d159797"
+  },
+  "name": "customer",
+  "surname": "eight",
+  "email": "customereight@gmail.com",
+  "password": "$2a$10$2g63RFGiPphHQaCjwuAoH.60FHyWSyBGM1d7/b8BUgKTT8l/CNduS",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117bab75ddb6a65d15979f"
+  },
+  "name": "customer",
+  "surname": "nine",
+  "email": "customernine@gmail.com",
+  "password": "$2a$10$5TL.LmTMDIrUNlkcPldCLerEeyRhKwOCjMTPmxvb4JGZsqDBdMyGG",
+  "phone": "11111111111",
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "64117bb775ddb6a65d1597a3"
+  },
+  "name": "customer",
+  "surname": "ten",
+  "email": "customerten@gmail.com",
+  "password": "$2a$10$BX0dc8j47I73jA7J5JxQceVF63gIavvvIAsqcqw9Gm3y1V0Ei1tqy",
+  "phone": "11111111111",
+  "__v": 0
+}]
