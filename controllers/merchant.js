@@ -39,6 +39,12 @@ const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
 
 
 })
+const deleteAllMerchant = asyncHandlerWrapper(async(req, res, next) => {
+    await Supplier.deleteMany();
+    res.status(200).json({
+        success: true
+    })
+})
 const updateTransaction = asyncHandlerWrapper(async (req, res, next) => {
     const transaction = await Transaction.findById(req.body.transactionId);
     await Order.findByIdAndUpdate(transaction.order, {
@@ -119,5 +125,6 @@ module.exports = {
     updateTransaction,
     getAllSuppliers,
     updateStock,
-    deleteStock
+    deleteStock,
+    deleteAllMerchant
 }

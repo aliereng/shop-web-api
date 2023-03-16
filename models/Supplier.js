@@ -2,7 +2,9 @@ const mongoose = require("mongoose");
 const sluqify = require("slugify")
 const jwt = require("jsonwebtoken")
 const Product = require("../models/Product");
-const bcrypt = require("bcryptjs")
+const bcrypt = require("bcryptjs");
+const Transaction = require("./Transaction");
+const Shipper = require("../models/Shipper")
 
 const SupplierModel = new mongoose.Schema({
     name: {
@@ -114,6 +116,11 @@ SupplierModel.methods.getResetPasswordTokenFromUser =  function() {
     this.save();
     return resetPasswordToken
 }
+SupplierModel.post("deleteMany", async function(){
+    await Product.deleteMany();
+    await Transaction.deleteMany();
+    await Shipper.deleteMany();
+})
 
 
 

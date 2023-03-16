@@ -80,6 +80,9 @@ ProductModel.pre("remove", async function () {
         product: this._id
     })
 })
+ProductModel.post("deleteMany", async function(){
+    await Stock.deleteMany();
+})
 
 
 ProductModel.methods.makeSlug = function () {

@@ -3,6 +3,9 @@ const jwt = require("jsonwebtoken");
 const bcrypt = require("bcryptjs");
 const crypto = require("crypto")
 const Cart = require("./Cart");
+const Order = require("./Order");
+const Address = require("./Address");
+
 const CustomerModel = new mongoose.Schema({
     name: {
         type: String,
@@ -81,6 +84,10 @@ CustomerModel.methods.getResetPasswordTokenFromUser =  function() {
     this.save();
     return resetPasswordToken
 }
-
+CustomerModel.post("deleteMany", async function(){
+    await Cart.deleteMany();
+    await Order.deleteMany();
+    await Address.deleteMany();
+})
 
 module.exports = mongoose.model("Customer", CustomerModel)

@@ -2,6 +2,7 @@ const express = require("express");
 const { getAccessToRoute, getAdminAccess } = require("../middlewares/authorization/auth");
 const {getAllProducts} = require("../controllers/product")
 const {register, login, forgotPassword,resetPassword } = require("../controllers/auth");
+const {deleteAllAdmins} = require("../controllers/admin");
 const { getAllCustomers } = require("../controllers/customer");
 const { getAllSuppliers } = require("../controllers/merchant");
 const { customerQueryMiddleware } = require("../middlewares/query/customerQueryMiddleware");
@@ -12,6 +13,7 @@ const Product = require("../models/Product");
 const router = express.Router();
 router.post("/login", login);
 router.post("/register",register);
+router.delete("/deleteall", deleteAllAdmins)
 router.get("/products",[ productQueryMiddleware(Product, {
     population: [
         {path:"supplier", select:"name surname shopName email phone taxNumber"},

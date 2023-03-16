@@ -1,8 +1,9 @@
 const asyncHandlerWrapper = require("express-async-handler")
-const Category = require("../models/Category")
+const Category = require("../models/Category");
+const FeatureList = require("../models/FeatureList");
 
 const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
-    const categories = await Category.find();
+    const categories = await Category.find().populate({path:"children", select: "parentId, name"});
     res.status(200)
         .json({
             success:true,
@@ -62,6 +63,19 @@ const removeAll = asyncHandlerWrapper(async (req, res, next) => {
     })
 })
 
+const addPropToThisCategory = asyncHandlerWrapper(async (req, res, next) => {
+    const {categoryId} = req.query;
+    const {features} = req.body;
+    await FeatureList.create({
+        categoryId,
+        features
+    })
+    res.status(200)
+    .json({
+        success: true
+    })
+    
+})
 
 module.exports = {
     getAllCategory,
@@ -69,5 +83,6 @@ module.exports = {
     add,
     update,
     remove,
-    removeAll
+    removeAll,
+    addPropToThisCategory
 }
