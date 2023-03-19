@@ -1,5 +1,6 @@
 "use strict"
 const express = require("express");
+const cors = require("cors")
 const router = require("./routers/index");
 const dotenv = require("dotenv");
 const connetDatabase = require("./helpers/databaseHelper");
@@ -12,6 +13,7 @@ dotenv.config({
 const app = express();
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json());
+app.use(cors())
 app.use("/api", router);
 app.use(customErrorHandler)
 connetDatabase();
