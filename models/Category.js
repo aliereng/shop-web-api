@@ -15,6 +15,13 @@ const CategoryModel = new mongoose.Schema({
             ref: "Category"
         }
     ],
+    properties:[
+        {
+            type: mongoose.Schema.ObjectId,
+            ref:"PropertyOfCategory"
+        }
+    ],
+    
     slug:String
 })
 

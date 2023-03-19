@@ -1,21 +1,20 @@
 const asyncHandlerWrapper = require("express-async-handler")
 const Category = require("../models/Category");
-const FeatureList = require("../models/FeatureList");
-
+const Properties = require("../models/Properties")
 const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
-    const categories = await Category.find().populate({path:"children", select: "parentId, name"});
+    const categories = await Category.find().populate([{ path: "children", select: "parentId, name" }, {path:"properties", select:"property results"}]);
     res.status(200)
         .json({
-            success:true,
+            success: true,
             data: categories
         })
 })
-const getCategoryById = asyncHandlerWrapper(async(req, res,next)=> {
-    const {categoryId} = req.body
-    const category = await Category.findById(categoryId).populate({path:"children", select:"name"});
+const getCategoryById = asyncHandlerWrapper(async (req, res, next) => {
+    const { categoryId } = req.body
+    const category = await Category.findById(categoryId).populate({ path: "children", select: "name" });
 
     res.status(200).json({
-        success: true, 
+        success: true,
         data: category
     })
 })
@@ -64,17 +63,20 @@ const removeAll = asyncHandlerWrapper(async (req, res, next) => {
 })
 
 const addPropToThisCategory = asyncHandlerWrapper(async (req, res, next) => {
-    const {categoryId} = req.query;
-    const {features} = req.body;
-    await FeatureList.create({
-        categoryId,
-        features
-    })
-    res.status(200)
-    .json({
+    const { categoryId } = req.params;
+    const {properties} = req.body
+    if(Array.isArray(properties)){
+        properties.map(async property => {
+            await Properties.create({
+                categoryId,
+                ...property
+            })
+        })
+    }
+    res.status(200).json({
         success: true
     })
-    
+
 })
 
 module.exports = {

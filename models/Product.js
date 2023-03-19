@@ -15,9 +15,9 @@ const ProductModel = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    properties: {
-        type: [String]
-    },
+    properties: [
+       [String, String]
+    ],
     image: {
         type: String,
         default: "default.png"
