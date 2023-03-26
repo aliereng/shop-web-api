@@ -32,6 +32,21 @@ const sortHelper = function(query, req){
     return query.sort("-createdAt")
 
 }
+const priceHelper = function(query, req){
+    const {max, min} = req.query;
+    if(max != null && min != null){
+        return query.where('price').gte(min).lte(max)
+    }
+    return query
+}
+const colorHelper = function(query, req){
+    const {color} = req.query;
+    if(color!= null){
+        return query.where({color})
+    }
+    return query
+}
+
 const paginationHelper = async (total, query, req) =>{
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
@@ -72,5 +87,7 @@ module.exports = {
     searchHelper,
     paginationHelper,
     populateHelper,
-    sortHelper
+    sortHelper,
+    priceHelper,
+    colorHelper
 }

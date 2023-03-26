@@ -1,10 +1,9 @@
 const asyncHandlerWrapper = require("express-async-handler");
 const Category = require("../models/Category");
-
 const Product = require("../models/Product")
 const Stock = require("../models/Stock")
 const getAllProducts = asyncHandlerWrapper(async (req, res, next)=>{
-    res.status(200).json(res.queryResults)
+    res.status(200).json(res.queryResults);
 });
 const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
     const products = await Product.find({supplier: req.user.id}).populate("stocks", "size color piece price");
@@ -15,16 +14,24 @@ const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
     })
 });
 const getProductsByCategory = asyncHandlerWrapper(async(req, res, next)=> {
-    const {slug} = req.params
-    const category = await Category.findOne({slug})
-    const products = await Product.find({categories:category._id});
+    
+    res.status(200).json(res.queryResults)
+})
+const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
+    const {id} = req.params
+    const product = await Product.findById(id).populate([
+        {path:"supplier", select:"shopName email phone"},
+        {path:"categories", select:"name"},
+        {path:"stocks", select:"size color piece price"}
+    ]);
     res.status(200).json({
-        success: true,
-        data: products
+        success:true,
+        data: product
     })
 })
 const addProduct = (async (req, res, next)=>{
     const reqProductData = JSON.parse(req.body.product);
+   
     const product = await Product.create({
         supplier: req.user.id,
         image:req.image,
@@ -125,5 +132,6 @@ module.exports = {
     deleteAllProduct,
     deleteProductById,
     getAllProductsBySupplier,
-    getProductsByCategory
+    getProductsByCategory,
+    getProductById
 }

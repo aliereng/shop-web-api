@@ -2,7 +2,7 @@ const asyncHandlerWrapper = require("express-async-handler")
 const Category = require("../models/Category");
 const Properties = require("../models/Properties")
 const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
-    const categories = await Category.find().populate([{ path: "children", select: "parentId, name" }, {path:"properties", select:"property results"}]);
+    const categories = await Category.find().populate([{ path: "children", select: "parentId name slug children" ,populate:{path:"children", select: "parentId name slug children" ,populate:{path:"children", select: "parentId name slug children"}}}, {path:"properties", select:"property results"}]);
     res.status(200)
         .json({
             success: true,
