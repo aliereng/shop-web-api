@@ -10,8 +10,8 @@ const Product = require("../models/Product");
 const router = express.Router();
 
 
-router.get("/",[productQueryMiddleware(Product, {})], getAllProducts)
-router.get("/:id", getProductById)
+router.get("",[productQueryMiddleware(Product, {})], getAllProducts)
+router.get("/:slug/:id", getProductById)
 router.get("/merchant",[getAccessToRoute, getSupplierAccess], getAllProductsBySupplier);
 router.post("/add", [getAccessToRoute, getSupplierAccess, imageUpload.single("image")], addProduct)
 router.post("/addstock", [getAccessToRoute, getSupplierAccess, existStock, imageUpload.single("image")], createStockAndAddProduct)

@@ -14,7 +14,6 @@ const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
     })
 });
 const getProductsByCategory = asyncHandlerWrapper(async(req, res, next)=> {
-    
     res.status(200).json(res.queryResults)
 })
 const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
@@ -31,7 +30,6 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
 })
 const addProduct = (async (req, res, next)=>{
     const reqProductData = JSON.parse(req.body.product);
-   
     const product = await Product.create({
         supplier: req.user.id,
         image:req.image,

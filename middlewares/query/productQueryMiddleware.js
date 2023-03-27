@@ -3,10 +3,11 @@ const {searchHelper,populateHelper, sortHelper, paginationHelper, priceHelper, c
 const productQueryMiddleware = function(model, options){
     return asyncHandlerWrapper(async function(req,res,next){
         let queryResults;
-        let query = model.find()
+        let query = model.find();
         if(req.categoryId) {
-            query = query.find({categories: req.categoryId});
+            query = model.find({categories: req.categoryId});
         }
+        
         query = searchHelper("name", query, req);
         if(options && options.population){
             query = populateHelper(query, options.population);
