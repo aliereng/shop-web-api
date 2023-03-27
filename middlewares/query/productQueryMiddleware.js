@@ -20,7 +20,6 @@ const productQueryMiddleware = function(model, options){
         query = paginationResult.query;
         const pagination = paginationResult.pagination;
         
-        
         queryResults = await query.where({visible:true})
         res.queryResults = {
             success: true,

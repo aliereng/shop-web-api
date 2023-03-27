@@ -12,3 +12,4 @@ const deleteAllAdmins = asyncHandlerWrapper(async(req, res, next)=>{
 module.exports = {
     deleteAllAdmins
 }
+

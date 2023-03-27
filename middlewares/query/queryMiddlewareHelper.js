@@ -9,7 +9,11 @@ const searchHelper = (searchKey, query, req) => {
     return query;
 }
 const populateHelper = (query, population) => {
-    query = query.populate(population)
+    if(Array.isArray(population)){
+        population.map(item=> {
+            query.populate(item)
+        })
+    }
     return query;
 }
 const sortHelper = function(query, req){

@@ -8,6 +8,7 @@ const transaction = require("./transaction")
 const shipper = require("./shipper")
 const public = require("./public")
 const cart = require("./cart")
+const stock = require("./stock")
 
 const router = express.Router();
 router.use("/admin", admin)
@@ -19,4 +20,5 @@ router.use("/cart", cart);
 router.use("/transaction", transaction);
 router.use("/shipper", shipper);
 router.use("/public", public)
+router.use("/stocks", stock)
 module.exports = router;

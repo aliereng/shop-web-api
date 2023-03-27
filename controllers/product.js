@@ -21,7 +21,7 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
     const product = await Product.findById(id).populate([
         {path:"supplier", select:"shopName email phone"},
         {path:"categories", select:"name slug"},
-        {path:"stocks", select:"size color piece price"}
+        {path:"stocks", select:"size color piece price type"}
     ]);
     res.status(200).json({
         success:true,
@@ -121,6 +121,7 @@ const deleteAllProduct = asyncHandlerWrapper(async (req, res, next)=> {
             message: "başarılı"
         })
 })
+
 
 module.exports = {
     getAllProducts,
