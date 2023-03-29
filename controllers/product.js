@@ -6,12 +6,13 @@ const getAllProducts = asyncHandlerWrapper(async (req, res, next)=>{
     res.status(200).json(res.queryResults);
 });
 const getAllProductsBySupplier = asyncHandlerWrapper(async (req, res, next)=>{
-    const products = await Product.find({supplier: req.user.id}).populate("stocks", "size color piece price");
+    // const products = await Product.find({supplier: req.user.id}).populate("stocks", "size color piece price");
 
-    res.status(200)
-    .json({
-        data: products
-    })
+    // res.status(200)
+    // .json({
+    //     data: products
+    // })
+    res.status(200).json(res.queryResults);
 });
 const getProductsByCategory = asyncHandlerWrapper(async(req, res, next)=> {
     res.status(200).json(res.queryResults)
@@ -20,7 +21,7 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
     const {id} = req.params
     const product = await Product.findById(id).populate([
         {path:"supplier", select:"shopName email phone"},
-        {path:"categories", select:"name slug"},
+        {path:"categories", select:"name slug properties", populate:{path:"properties", select:"property"}},
         {path:"stocks", select:"size color piece price type"}
     ]);
     res.status(200).json({

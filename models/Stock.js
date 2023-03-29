@@ -32,8 +32,10 @@ const StockModel = new mongoose.Schema({
     image:{
         type: String,
 
-    }
-   
+    },
+    images: {
+        type:[String]
+    }   
 })
 
 StockModel.methods.updateProductBaseStock =  function(productId){
