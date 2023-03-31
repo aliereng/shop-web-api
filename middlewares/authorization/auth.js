@@ -69,6 +69,9 @@ const getProductOwnerAccess = asyncErrorWrapper(async (req, res, next) => {
     next()
 
 })
+const getModel = asyncErrorWrapper(async (req, res,next) => {
+    
+})
 
 module.exports= {
     getAccessToRoute,getSupplierAccess,

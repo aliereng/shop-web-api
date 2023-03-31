@@ -33,7 +33,8 @@ const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
     }
     const resetPasswordToken = user.getResetPasswordTokenFromUser();
     
-    const resetPasswordUrl= `http://localhost:3000/api/customer/resetpassword?resetPasswordToken=${resetPasswordToken}`;
+    const resetPasswordUrl= `http://localhost:4200/resetpassword?resetPasswordToken=${resetPasswordToken}`;
+    // const resetPasswordUrl= `http://localhost:3000/api/resetpassword?resetPasswordToken=${resetPasswordToken}`;
     const emailTemplate = `
         <h2>Reset Your Password</h2>
         <p>This <a href='${resetPasswordUrl}' target='_blank'>link</a> will expire in 1 hour.</p>
@@ -48,7 +49,10 @@ const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
             html: emailTemplate
         })
         res.status(200)
-        .send("eposta adresinize sıfırlama maili gönderildi")
+        .json({
+            success: true,
+            message:"eposta adresinize sıfırlama maili gönderildi"
+        })
     } catch (error) {
         user.resetPasswordExpire = undefined;
         user.resetPasswordToken = undefined;
@@ -72,7 +76,10 @@ const resetPassword = asyncHandlerWrapper(async(req, res, next) => {
     user.resetPasswordExpire = undefined;
     user.resetPasswordToken = undefined;
     await user.save();
-    res.status(200).send("parola değiştirme işlemi başarılı")
+    res.status(200).json({
+        success: true,
+        message: "parola değiştirme işlemi başarılı."
+    })
 })
 
 module.exports = {

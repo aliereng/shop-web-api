@@ -4,11 +4,11 @@ const {getAccessToRoute, getCustomerAccess} = require("../middlewares/authorizat
 const {register, login, forgotPassword, resetPassword } = require("../controllers/auth");
 const router = express.Router();
 
-router.post("/register", register)
-router.post("/login", login)
+// router.post("/register", register)
+// router.post("/login", login)
 router.post("/addaddress", [getAccessToRoute, getCustomerAccess], addAddress)
-router.post("/forgotpassword", forgotPassword)
-router.post("/resetpassword", resetPassword)
+// router.post("/forgotpassword", forgotPassword)
+// router.post("/resetpassword", resetPassword)
 router.get("/", [getAccessToRoute, getCustomerAccess], getCustomer)
 router.get("/orders", [getAccessToRoute, getCustomerAccess], getOrders)
 
