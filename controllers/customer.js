@@ -2,14 +2,13 @@ const asyncHandlerWrapper = require("express-async-handler")
 const Customer = require("../models/Customer");
 const Cart = require("../models/Cart");
 const Order = require("../models/Order");
-const Address = require("../models/Address")
 
 const getAllCustomers = asyncHandlerWrapper(async(req, res, next)=> {
     res.status(200).json(res.queryResults)
 })
 
 const getCustomer = asyncHandlerWrapper(async (req, res, next) =>{
-    const customer = await Customer.findById(req.user.id);
+    const customer = await Customer.findById(req.user.id).select("+password");
     res.status(200)
     .json({
         data: customer
@@ -22,31 +21,18 @@ const getOrders = asyncHandlerWrapper(async (req, res, next) =>{
         data: orders
     })
 })
-const addAddress = asyncHandlerWrapper(async (req, res, next) =>{
-    const address = await Address.create({
-        userType: "Customer",
-        user: req.user.id,
-        ...req.body
-    });
-    res.status(200)
-    .json({
-        data: address
-    })
-})
-
-
-
 const update = asyncHandlerWrapper(async (req, res, next)=>{
-        
-    const {customer_id} = req.params;
-    
-    const customer = await Customer.findByIdAndUpdate(customer_id,{...req.body},{
+    console.log(req.body.password)        
+    const customer = await Customer.findByIdAndUpdate(req.user.id,{...req.body},{
         new: true,
         runValidators: true
     })
+    customer.password = req.body.password;
+    customer.save()
     res.status(200).
     json({
-        data: customer
+        success:true,
+        message: "Güncelleme işlemi Tamamlandı"
     })
     
 });
@@ -75,7 +61,6 @@ module.exports = {
     deleteCustomerById,
     deleteAllCustomer,
     getCustomer,
-    addAddress,
     getOrders,
     getAllCustomers
 

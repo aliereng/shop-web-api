@@ -6,11 +6,15 @@ const AddressModel = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: 'userType'
     },
-    addressTitle: {
+    title: {
         type:String,
         required: [true, "customer adres title boş bırakılamaz."]
     },
-    address: {
+    
+    info: {
+        name: String,
+        surname: String,
+        phone: String,
         city: String,
         district: String,
         neighbourhood: String,

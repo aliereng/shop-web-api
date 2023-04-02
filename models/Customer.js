@@ -9,11 +9,9 @@ const Address = require("./Address");
 const CustomerModel = new mongoose.Schema({
     name: {
         type: String,
-        required: [true, "kullanıcı ad alanı boş bırakılamaz"]
     },
     surname: {
         type: String,
-        required: [true, "kullanıcı soyad alanı boş bırakılamaz"]
     },
     email: {
         type: String,
@@ -29,7 +27,6 @@ const CustomerModel = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: [true, "kullanıcı telefon alanı boş bırakılamaz"]
     },
     resetPasswordToken: {
         type: String
@@ -53,6 +50,7 @@ CustomerModel.pre("save", function (next) {
         });
     });
 })
+
 CustomerModel.post("save", async function () {
     await Cart.create({
         customer: this._id

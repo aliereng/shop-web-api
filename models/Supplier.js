@@ -8,12 +8,10 @@ const Shipper = require("../models/Shipper")
 
 const SupplierModel = new mongoose.Schema({
     name: {
-        type: String,
-        required: [true, "sağlayıcı ad alanı boş bırakılamaz"]
+        type: String
     },
     surname: {
-        type: String,
-        required: [true, "sağlayıcı soyad alanı boş bırakılamaz"]
+        type: String
     },
     shopName: {
         type: String,
@@ -35,7 +33,6 @@ const SupplierModel = new mongoose.Schema({
         type: String,
         required: [true, "sağlayıcı telefon alanı boş bırakılamaz"]
     },
-    
     taxNumber: {
         type: String,
         required: [true, "satıcı vergi numara alanı boş bırakılamaz"]

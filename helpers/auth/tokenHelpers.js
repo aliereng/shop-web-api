@@ -1,4 +1,4 @@
-const sendJwtToCLient = (user, res) => {
+const sendJwtToCLient = (user, res, modelType) => {
     const token = user.generateJwtToken();
     res.status(200)
         .cookie("access_token", token, {
@@ -10,10 +10,8 @@ const sendJwtToCLient = (user, res) => {
             access_token: token,
             data: {
                 id:user._id,
-                username: user.username,
-                name: user.name,
-                surname: user.surname,
-                email: user.email
+                email: user.email,
+                modelType
             }
         })
 }

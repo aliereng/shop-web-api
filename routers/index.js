@@ -10,6 +10,7 @@ const public = require("./public")
 const cart = require("./cart")
 const stock = require("./stock")
 const auth = require("./auth")
+const address = require("./address")
 
 
 const router = express.Router();
@@ -24,4 +25,5 @@ router.use("/transaction", transaction);
 router.use("/shipper", shipper);
 router.use("/public", public)
 router.use("/stocks", stock);
+router.use("/address", address);
 module.exports = router;

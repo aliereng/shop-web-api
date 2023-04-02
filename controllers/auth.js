@@ -10,7 +10,7 @@ const register = asyncHandlerWrapper(async(req, res, next) => {
     const user = await model.create({
         ...req.body
     })
-    sendJwtToCLient(user, res)
+    sendJwtToCLient(user, res, req.body.model)
 })
 const login = asyncHandlerWrapper(async(req, res, next) => {
     const model = controleAndReturnModel(req.body.model);
@@ -22,7 +22,7 @@ const login = asyncHandlerWrapper(async(req, res, next) => {
     if(!comparePassword(password, user.password)){
         return next(new CustomError("hatalı parola", 401))
     }
-    sendJwtToCLient(user, res);
+    sendJwtToCLient(user, res, req.body.model);
 })
 const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {
     const confirmEmail = req.body.email;
