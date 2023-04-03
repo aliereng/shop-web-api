@@ -19,10 +19,18 @@ const add = asyncHandlerWrapper(async (req, res, next) =>{
         data: address
     })
 })
+const removeById = asyncHandlerWrapper(async (req,res,next)=> {
+    const {id} = req.params
+    await Address.findByIdAndDelete(id);
+    res.status(200).json({
+        success: true
+    })
+})
 
 
 module.exports ={
     
     add,
-    getById
+    getById,
+    removeById
 }
