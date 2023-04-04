@@ -10,6 +10,7 @@ const AddressModel = new mongoose.Schema({
         type:String,
         required: [true, "customer adres title boş bırakılamaz."]
     },
+    selected:Boolean,
     
     info: {
         name: String,
