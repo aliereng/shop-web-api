@@ -28,11 +28,14 @@ const addToCart = asyncHandlerWrapper(async(req, res, next) => {
 })
 const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
     
-    const cart = await Cart.findOne({customer: req.user.id}).populate({path:"items", populate: {path:"product", select:"supplier"}});
+    const cart = await Cart.findOne({customer: req.user.id}).populate([
+        {path:"items", select:"product stock items", populate:{path:"product", select:"slug image name supplier", populate:{path:"supplier", select:"shopName slug"}}},
+        {path:"items", select:"stock", populate:{path:"stock", select:"color size price"}}
+    ]);
     cart.items.map(async item => {
         await Order.create({
             customer: req.user.id,
-            product:item.product,
+            product:item.product._id,
             stock: item.stock,
             count: item.count,
             amount: item.price,
@@ -41,7 +44,10 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
         })
     })
 
-    res.status(200).send("Sipariş Oluşturuldu")
+    res.status(200).json({
+        success:true,
+        message:"Sipariş Oluşturuldu."
+    })
 
 })
 const getCart = asyncHandlerWrapper(async(req, res, next)=> {
