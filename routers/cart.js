@@ -5,10 +5,10 @@ const router = express.Router();
 
 router.use([getAccessToRoute, getCustomerAccess])
 
-router.post("/addtocart", addToCart);
-router.post("/complete", [getAccessToRoute, getCustomerAccess], applyCart)
-router.get("/get", [getAccessToRoute, getCustomerAccess], getCart)
-router.put("/apply/:id", [getAccessToRoute, getCustomerAccess], updateCart)
+router.post("/add",[getAccessToRoute, getCustomerAccess], addToCart);
+router.post("/complete", applyCart)
+router.get("/get", getCart)
+router.put("/apply/:id", updateCart)
 
 // router.get("/applycart" , applyCart)
 

@@ -1,6 +1,6 @@
 const express = require("express");
 const {getAllProducts, addProduct, update, deleteAllProduct, deleteProductById, createStockAndAddProduct, getAllProductsBySupplier, getProductsByCategory,getProductById} = require("../controllers/product");
-const {getAccessToRoute, getSupplierAccess, getAdminAccess} = require("../middlewares/authorization/auth");
+const {getAccessToRoute, getSupplierAccess, getAdminAccess, getCustomerAccess} = require("../middlewares/authorization/auth");
 const {addImagesThisStock} = require("../controllers/stock")
 const { productQueryMiddleware } = require("../middlewares/query/productQueryMiddleware");
 const { getCategoryIdBySlugName } = require("../middlewares/category/category");

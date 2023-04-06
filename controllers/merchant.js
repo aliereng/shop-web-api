@@ -15,17 +15,13 @@ const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
 const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
     Transaction.find({ supplier: req.user.id }).populate({
         path: "order", populate: [
-            { path: "product", select: "name" },
-            { path: "stock", select: "size color price" },
+            { path: "product", select: "name slug" },
+            { path: "stock", select: "size color price image" },
             {
-                path: "deliveredAddress", select: "addressTitle, address", populate: {
-                    path: "user", model: "Customer", select: "name surname email phone"
-                }
+                path: "deliveredAddress", select: "title info"
             },
             {
-                path: "invoiceAddress", select: "addressTitle, address", populate: {
-                    path: "user", model: "Customer", select: "name surname email phone"
-                }
+                path: "invoiceAddress", select: "title info"
             }
         ]
     }

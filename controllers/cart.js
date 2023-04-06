@@ -3,6 +3,7 @@ const Cart = require("../models/Cart");
 const Stock = require("../models/Stock")
 const Order = require("../models/Order")
 const addToCart = asyncHandlerWrapper(async(req, res, next) => {
+ 
     const {product, stock, count} = req.body
     const findStock = await Stock.findById(stock);
 
