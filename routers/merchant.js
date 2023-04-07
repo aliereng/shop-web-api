@@ -12,7 +12,7 @@ router.put("/updatestock", updateStock)
 router.delete("/deletestock", deleteStock)
 router.delete("/deleteall", deleteAllMerchant)
 router.get("/transaction", [getAccessToRoute, getSupplierAccess], getTransaction)
-router.get("/transaction/update", [getAccessToRoute, getSupplierAccess], updateTransaction)
+router.put("/transaction/update", [getAccessToRoute, getSupplierAccess], updateTransaction)
 
 
 module.exports = router;

@@ -17,6 +17,7 @@ const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
         path: "order", populate: [
             { path: "product", select: "name slug" },
             { path: "stock", select: "size color price image" },
+            {path:"shipper", select:"name"},
             {
                 path: "deliveredAddress", select: "title info"
             },

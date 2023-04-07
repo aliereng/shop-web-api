@@ -1,5 +1,7 @@
 const express = require("express");
-const {addShipper} = require("../controllers/shipper")
+const {add,  getAll} = require("../controllers/shipper")
 const router = express.Router();
-router.post("/", addShipper)
+router.post("/", add)
+router.get("/", getAll)
+
 module.exports = router;

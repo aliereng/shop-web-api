@@ -28,6 +28,9 @@ const OrderModel = new mongoose.Schema({
         type: Boolean,
         default: false,
     },
+    followCode:{
+        type: String,
+    },
     supplier: {
         type: mongoose.Schema.ObjectId,
         ref: "Supplier"
@@ -51,6 +54,10 @@ const OrderModel = new mongoose.Schema({
     amount: {
         type: Number,
         default: 0
+    },
+    complete:{
+        type:Boolean,
+        default: false
     }
 
 })
