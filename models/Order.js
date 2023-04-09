@@ -47,7 +47,7 @@ const OrderModel = new mongoose.Schema({
         type: mongoose.Schema.ObjectId,
         ref: "Address"
     },
-    createdAdd: {
+    createdAt: {
         type: Date,
         default: Date.now
     },
@@ -96,7 +96,8 @@ OrderModel.post("save", async function () {
     
     await Transaction.create({
         supplier: this.supplier,
-        order: this
+        order: this,
+        createdAt: this.createdAt
     })
     await Cart.findOneAndUpdate({ customer: this.customer }, {
         items: [],

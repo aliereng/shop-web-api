@@ -16,7 +16,8 @@ const addImagesThisStock = asyncHandlerWrapper(async (req, res, next) => {
     const files = []
     const stock = await Stock.findById(req.query.stockId);
     const product = await Product.findById(stock.product);
-    
+    console.log(req.image)
+    console.log(req.files)
     if(Array.isArray(req.files)){
         req.files.map(file=> {
             files.push(file.filename)
@@ -25,11 +26,12 @@ const addImagesThisStock = asyncHandlerWrapper(async (req, res, next) => {
     }
     if(stock.type == "base"){
         product.images = files;
+        product.save();
     }
     
     
     stock.save();
-    product.save();
+    
     res.status(200).json({
         success: true,
         data: stock

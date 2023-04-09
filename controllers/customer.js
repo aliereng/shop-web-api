@@ -22,13 +22,15 @@ const getOrders = asyncHandlerWrapper(async (req, res, next) =>{
     })
 })
 const update = asyncHandlerWrapper(async (req, res, next)=>{
-    console.log(req.body.password)        
     const customer = await Customer.findByIdAndUpdate(req.user.id,{...req.body},{
         new: true,
         runValidators: true
     })
-    customer.password = req.body.password;
-    customer.save()
+    if(req.body.password){
+        customer.password = req.body.password;
+        customer.save()
+    }
+    
     res.status(200).
     json({
         success:true,

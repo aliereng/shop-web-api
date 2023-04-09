@@ -11,6 +11,9 @@ const searchHelper = (searchKey, query, req) => {
 const populateHelper = (query, population) => {
     if(Array.isArray(population)){
         population.map(item=> {
+            if(Array.isArray(item)){
+                this.populateHelper(query, item)
+            }
             query.populate(item)
         })
     }
@@ -35,6 +38,17 @@ const sortHelper = function(query, req){
    
     return query.sort("-createdAt")
 
+}
+const completeHelper = function(query,req){
+  
+    const completeStatus = req.query.complete;
+    if(completeStatus == "true"){
+        return query.where({"complete":true})
+    }else if(completeStatus == "false"){
+        return query.where({"complete":false})
+    }else{
+        return query
+    }
 }
 const priceHelper = function(query, req){
     const {max, min} = req.query;
@@ -93,5 +107,6 @@ module.exports = {
     populateHelper,
     sortHelper,
     priceHelper,
-    colorHelper
+    colorHelper,
+    completeHelper
 }

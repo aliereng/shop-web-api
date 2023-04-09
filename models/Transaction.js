@@ -9,6 +9,13 @@ const TransactionModel = new mongoose.Schema({
     order: {
         type: mongoose.Schema.ObjectId,
         ref:"Order"
+    },
+    createdAt:{
+        type:Date
+    },
+    complete:{
+        type:Boolean,
+        default:false
     }
     
 })

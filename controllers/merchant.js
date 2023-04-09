@@ -13,26 +13,27 @@ const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
     })
 })
 const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
-    Transaction.find({ supplier: req.user.id }).populate({
-        path: "order", populate: [
-            { path: "product", select: "name slug" },
-            { path: "stock", select: "size color price image" },
-            {path:"shipper", select:"name"},
-            {
-                path: "deliveredAddress", select: "title info"
-            },
-            {
-                path: "invoiceAddress", select: "title info"
-            }
-        ]
-    }
-    ).then(result => {
-        res.status(200)
-            .json({ data: result })
-    })
-        .catch(err => {
-            return next(new CustomError(err, 500))
-        })
+    // Transaction.find({ supplier: req.user.id }).populate({
+    //     path: "order", populate: [
+    //         { path: "product", select: "name slug" },
+    //         { path: "stock", select: "size color price image" },
+    //         {path:"shipper", select:"name"},
+    //         {
+    //             path: "deliveredAddress", select: "title info"
+    //         },
+    //         {
+    //             path: "invoiceAddress", select: "title info"
+    //         }
+    //     ]
+    // }
+    // ).then(result => {
+    //     res.status(200)
+    //         .json({ data: result })
+    // })
+    //     .catch(err => {
+    //         return next(new CustomError(err, 500))
+    //     })
+    res.status(200).json(res.queryResults);
 
 
 })

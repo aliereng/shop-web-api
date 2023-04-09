@@ -14,7 +14,7 @@ const storage = multer.diskStorage({
     }
 })
 const fileFilter = (req, file, cb) =>{
-    let allowedMimeTypes = ["image/jpg", "image/gif","image/jpeg", "image/png", "image/webp"];
+    let allowedMimeTypes = ["image/jpg", "image/gif","image/jpeg", "image/png", "image/webp","image/avif"];
     if(!allowedMimeTypes.includes(file.mimetype)){
         return cb(new CustomError("desteklenmeyen dosya formatı", 401), false);
     }

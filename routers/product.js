@@ -26,7 +26,11 @@ router.get("/:slug/:id", [productQueryMiddleware(Product, options={
 
 router.get("/merchant",[getAccessToRoute, getSupplierAccess,productQueryMiddleware(Product, options={
     population:[
-        {path:"stocks", select:"size color piece price image type images"}
+        {path:"stocks", select:"size color piece price image type images"},
+        {path:"categories", select:"parent name children properties", populate:[
+            {path:"children", select:"name children"},
+            {path:"properties", select:"property results"}
+        ]}
     ]
 })], getAllProductsBySupplier);
 router.post("/add", [getAccessToRoute, getSupplierAccess, imageUpload.single("image")], addProduct)

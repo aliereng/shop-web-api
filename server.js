@@ -15,8 +15,7 @@ const app = express();
 app.use(express.static(path.join(__dirname, "public")))
 app.use(express.json());
 app.use(cors({
-    origin: 'http://localhost:4200',
-    credentials: true,
+    origin:"http://localhost:4200"
 }))
 
 app.use("/api", router);
