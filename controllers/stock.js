@@ -15,21 +15,24 @@ const getStockFromProductByColor = asyncHandlerWrapper(async(req, res, next)=> {
 const addImagesThisStock = asyncHandlerWrapper(async (req, res, next) => {
     const files = [] 
     const stock = await Stock.findById(req.query.stockId);
+
     const product = await Product.findById(stock.product);
+    if(req.files.length != 0){
+        stock.removeOtherPictures(stock._id, stock.images);
+    }
+
     if(Array.isArray(req.files)){
         req.files.map(file=> {
             files.push(file.filename)
         })
         stock.images = files;
+        stock.save();
     }
     if(stock.type == "base"){
         product.images = files;
         product.save();
     }
-    
-    
-    stock.save();
-    
+        
     res.status(200).json({
         success: true,
         data: stock

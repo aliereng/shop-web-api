@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const fs = require("fs")
 const Product = require("./Product");
 
 const StockModel = new mongoose.Schema({
@@ -45,6 +46,23 @@ StockModel.methods.updateProductBaseStock =  function(productId){
         product.color = this.color;
         product.price = this.price
         product.save();
+}
+StockModel.methods.removeOtherPictures = function(stockId, picNames){
+    fs.readdir(process.cwd()+"/public/uploads", (err, files)=> {
+        if(err){
+            console.log(`${process.cwd()}/public/uploads yolu bulunamadı: ${err}`)
+        }else{
+            if(Array.isArray(picNames)){
+                picNames.map(picName => {
+                    if(files.includes(picName)){
+                        fs.unlink(process.cwd()+`/public/uploads/${picName}`, function(err){
+                            if(err) console.log("dosya silme işlemi sırasında hatalarla karşılaşıldı: "+ err)
+                        })
+                    }
+                })
+            }
+        }
+    })
 }
 
 module.exports = mongoose.model("Stock", StockModel)
