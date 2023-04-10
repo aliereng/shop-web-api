@@ -13,11 +13,9 @@ const getStockFromProductByColor = asyncHandlerWrapper(async(req, res, next)=> {
     })
 })
 const addImagesThisStock = asyncHandlerWrapper(async (req, res, next) => {
-    const files = []
+    const files = [] 
     const stock = await Stock.findById(req.query.stockId);
     const product = await Product.findById(stock.product);
-    console.log(req.image)
-    console.log(req.files)
     if(Array.isArray(req.files)){
         req.files.map(file=> {
             files.push(file.filename)
@@ -37,7 +35,25 @@ const addImagesThisStock = asyncHandlerWrapper(async (req, res, next) => {
         data: stock
     })
 })
+const updateStock = asyncHandlerWrapper(async (req, res, next)=> {
+    const {stockId} = req.query
+    const stock = await Stock.findByIdAndUpdate(stockId, {...req.body},{new:true, runValidators:true});
+    const product = await Product.findById(stock.product);
+
+    if(stock.type=="base"){
+        product.image = stock.image;
+        product.images = stock.images;
+        product.size = stock.size;
+        product.color = stock.color;
+        product.price = stock.price
+        product.save();
+    }
+    res.status(200).json({
+        success:true,
+        data: stock
+    })
+})
 module.exports = {
     getStockFromProductByColor,
-    addImagesThisStock
+    addImagesThisStock,updateStock
 }
