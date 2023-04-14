@@ -10,7 +10,7 @@ const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
         })
 })
 const getCategoryById = asyncHandlerWrapper(async (req, res, next) => {
-    const { categoryId } = req.body
+    const { categoryId } = req.params
     const category = await Category.findById(categoryId).populate({ path: "children", select: "name" });
 
     res.status(200).json({
