@@ -14,11 +14,16 @@ const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
         })
 })
 const getCategoryById = asyncHandlerWrapper(async (req, res, next) => {
+<<<<<<< HEAD
     const { id } = req.params
     const category = await Category.findById(id).populate([
         { path: "children", select: "name" },
         { path: "properties", select:"property results"}
     ]);
+=======
+    const { categoryId } = req.params
+    const category = await Category.findById(categoryId).populate({ path: "children", select: "name" });
+>>>>>>> cc63d58017372dd708ee8b5718d1e8d43adb8a94
 
     res.status(200).json({
         success: true,
