@@ -1,7 +1,6 @@
 const express = require("express");
-const {getAllProducts, addProduct, update, deleteAllProduct, deleteProductById, createStockAndAddProduct, getAllProductsBySupplier, getProductsByCategory,getProductById} = require("../controllers/product");
+const {getAllProducts, addProduct, update, deleteAllProduct, deleteProductById, getAllProductsBySupplier, getProductsByCategory,getProductById} = require("../controllers/product");
 const {getAccessToRoute, getSupplierAccess, getAdminAccess, getCustomerAccess} = require("../middlewares/authorization/auth");
-const {addImagesThisStock} = require("../controllers/stock")
 const { productQueryMiddleware } = require("../middlewares/query/productQueryMiddleware");
 const { getCategoryIdBySlugName } = require("../middlewares/category/category");
 const {existStock} = require("../middlewares/product/product");
@@ -13,20 +12,20 @@ const router = express.Router();
 
 router.get("",[productQueryMiddleware(Product, options={
     population: [
-        {path:"stocks", select:"size color price type"}
+        {path:"stocks", select:"size color price base"}
     ]
 })],getAllProducts)
 router.get("/:slug/:id", [productQueryMiddleware(Product, options={
     population: [
         {path:"categories", select:"name slug children", populate:{path:"children", select:"name slug"}},
         {path:"supplier", select:"shopName email phone"},
-        {path:"stocks", select:"size color price type"}
+        {path:"stocks", select:"size color price base"}
 ]
 })],getProductById)
 
 router.get("/merchant",[getAccessToRoute, getSupplierAccess,productQueryMiddleware(Product, options={
     population:[
-        {path:"stocks", select:"size color piece price image type images"},
+        {path:"stocks", select:"size color piece price image base images"},
         {path:"categories", select:"parent name children properties", populate:[
             {path:"children", select:"name children"},
             {path:"properties", select:"property results"}
@@ -34,8 +33,7 @@ router.get("/merchant",[getAccessToRoute, getSupplierAccess,productQueryMiddlewa
     ]
 })], getAllProductsBySupplier);
 router.post("/add", [getAccessToRoute, getSupplierAccess, imageUpload.single("image")], addProduct)
-router.post("/addstock", [getAccessToRoute, getSupplierAccess, existStock, imageUpload.single("image")], createStockAndAddProduct)
-router.post("/addimages", [getAccessToRoute, getSupplierAccess, existStock, imageUpload.array("images", 20)], addImagesThisStock)
+// router.post("/addimages", [getAccessToRoute, getSupplierAccess, existStock, imageUpload.array("images", 20)], addImagesThisStock)
 router.put("/:product_id/update", [getAccessToRoute, getSupplierAccess], update)
 router.delete("/:product_id/delete",[getAccessToRoute, getSupplierAccess], deleteProductById)
 router.delete("/deleteall", deleteAllProduct)

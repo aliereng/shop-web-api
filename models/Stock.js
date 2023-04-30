@@ -21,10 +21,9 @@ const StockModel = new mongoose.Schema({
         type: Number,
         default:0
     },
-    type:{
-        type:String,
-        default:"other",
-        enum:["other", "base"]
+    base:{
+        type:Boolean,
+        default:false
     },
     status: {
         type: Boolean,
@@ -41,7 +40,7 @@ const StockModel = new mongoose.Schema({
 
 StockModel.methods.updateProductBaseStock =  function(productId){
     const product =  Product.findById(productId);
-    product.stocks[0].type = "base";
+    product.stocks[0].base = true;
         product.size = this.size;
         product.color = this.color;
         product.price = this.price

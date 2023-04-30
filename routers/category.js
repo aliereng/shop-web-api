@@ -3,7 +3,7 @@ const {getAllCategory,getCategoryById, add, update, remove, removeAll, addPropTo
 const router = express.Router();
 
 router.get("/", getAllCategory)
-router.post("/getcategorybyid", getCategoryById)
+router.get("/:id", getCategoryById)
 router.post("/:categoryId/addfeatures", addPropToThisCategory)
 router.get("/deleteAll", removeAll)
 router.post("/add", add);

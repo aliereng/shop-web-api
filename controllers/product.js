@@ -30,55 +30,29 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
     })
 })
 const addProduct = (async (req, res, next)=>{
-    const reqProductData = JSON.parse(req.body.product);
+    console.log("add product çalıştı")
+    // const reqProductData = JSON.parse(req.body.product);
     const product = await Product.create({
         supplier: req.user.id,
-        image:req.image,
-        ...reqProductData
+        // image:req.image,
+        // ...reqProductData
+        ...req.body
     })
-    product.stocks.push(await Stock.create({
-        product: product._id,
-        type:"base",
-        image:req.image,
-        ...reqProductData
-    }));
+    // product.stocks.push(await Stock.create({
+    //     product: product._id,
+    //     base:true,
+    //     image:req.image,
+    //     ...reqProductData
+    // }));
     product.save();
     res.status(200).
     json({
+        success:true,
         data: product
     })
     
 });
-const createStockAndAddProduct = asyncHandlerWrapper(async (req,res,next) =>{
-    const {product_id}  = req.query
-    
-    const product = await Product.findById(product_id).populate({path:"stocks", select: "size type status"});
-    const stocks = await Stock.find({product: product_id});
-    const reqStockObject = JSON.parse(req.body.stock)
-    if(reqStockObject.type == "base"){
-        stocks.map(async stock => {
-            await Stock.findByIdAndUpdate(stock,{
-                type: "other"                
-            },{
-                new:true,
-                runValidators:true
-            })
-        })
-        product.price = reqStockObject.price;
-        product.size = reqStockObject.size;
-        product.color = reqStockObject.color;
-        product.image = req.image
-    }
-    product.stocks.push(await Stock.create({
-        product: product_id,
-        image: req.image,
-        ...reqStockObject
-    }));
-    product.save();
-    res.status(200).json({
-        data: product
-    })
-})
+
 // const addStockImage = asyncHandlerWrapper(async (req,res,next) =>{
 //     await Stock.findByIdAndUpdate(stock)
 // })
@@ -90,13 +64,13 @@ const update = asyncHandlerWrapper(async (req, res, next)=>{
         new: true,
         runValidators: true
     })
-    if(req.body.stocks){
-       await Stock.findOneAndUpdate({product:product_id}, {
-        size: req.body.stocks
-       },{
-        new:true
-       })
-    }
+    // if(req.body.stocks){
+    //    await Stock.findOneAndUpdate({product:product_id}, {
+    //     size: req.body.stocks
+    //    },{
+    //     new:true
+    //    })
+    // }
     res.status(200).
     json({
         data: product
@@ -127,7 +101,6 @@ const deleteAllProduct = asyncHandlerWrapper(async (req, res, next)=> {
 module.exports = {
     getAllProducts,
     addProduct,
-    createStockAndAddProduct,
     update,
     deleteAllProduct,
     deleteProductById,

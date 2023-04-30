@@ -16,7 +16,7 @@ const ProductModel = new mongoose.Schema({
         default: Date.now
     },
     properties: [
-       [String]
+       String
     ],
     image: {
         type: String,
@@ -76,12 +76,17 @@ ProductModel.pre("save", function (next) {
 
 });
 ProductModel.pre("remove", async function () {
-    await Stock.deleteOne({
+    
+    const stocks = await  Stock.find({product:this._id});
+    stocks.map(stock => {
+        stock.removeOtherPictures(stock._id, stock.images)
+    })
+    await Stock.deleteMany({
         product: this._id
     })
 })
 ProductModel.post("deleteMany", async function(){
-    await Stock.deleteMany();
+    await Stock.deleteMany({product:this._id});
 })
 
 

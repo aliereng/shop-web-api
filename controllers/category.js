@@ -3,6 +3,10 @@ const Category = require("../models/Category");
 const Properties = require("../models/Properties")
 const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
     const categories = await Category.find().populate([{ path: "children", select: "parentId name slug children" ,populate:{path:"children", select: "parentId name slug children" ,populate:{path:"children", select: "parentId name slug children"}}}, {path:"properties", select:"property results"}]);
+    // const categories = await Category.find().populate([
+    //     {path:"children" ,select:"name parentId slug children properties"},
+        
+    // ]);
     res.status(200)
         .json({
             success: true,
@@ -10,8 +14,11 @@ const getAllCategory = asyncHandlerWrapper(async (req, res, next) => {
         })
 })
 const getCategoryById = asyncHandlerWrapper(async (req, res, next) => {
-    const { categoryId } = req.body
-    const category = await Category.findById(categoryId).populate({ path: "children", select: "name" });
+    const { id } = req.params
+    const category = await Category.findById(id).populate([
+        { path: "children", select: "name" },
+        { path: "properties", select:"property results"}
+    ]);
 
     res.status(200).json({
         success: true,
