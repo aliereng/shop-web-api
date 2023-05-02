@@ -49,6 +49,12 @@ const SupplierModel = new mongoose.Schema({
             ref: "Shipper"
         }
     ],
+    comments: [
+        {
+            type: mongoose.Schema.ObjectId,
+            ref: "Comment" 
+        }
+    ],
     slug: String,
     score: Number,
     followers: Number,

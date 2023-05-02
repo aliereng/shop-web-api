@@ -6,6 +6,7 @@ const Admin = require("../../models/Admin");
 const Product = require("../../models/Product");
 const CustomError = require("../../helpers/error/CustomError");
 const {isTokenIncluded, getTokenFromHeader} = require("../../helpers/auth/tokenHelpers");
+const Comment = require("../../models/Comment");
 
 const getAccessToRoute = (req, res, next) => {
     if( !isTokenIncluded(req) ) {
@@ -69,6 +70,15 @@ const getProductOwnerAccess = asyncErrorWrapper(async (req, res, next) => {
     next()
 
 })
+const getCommentOwnerAccess = asyncErrorWrapper(async(req, res, next)=> {
+    const userId = req.user.id;
+    const commentId = req.query;
+    const comment = await Comment.findById(commentId);
+    if(comment.customer != userId){
+        return next(new CustomError("bu yorumu silmek için gerekli yetkiniz yok.", 403))
+    }
+    next()
+})
 // const getModel = asyncErrorWrapper(async (req, res,next) => {
     
 // })
@@ -76,5 +86,6 @@ const getProductOwnerAccess = asyncErrorWrapper(async (req, res, next) => {
 module.exports= {
     getAccessToRoute,getSupplierAccess,
     getCustomerAccess, getProductOwnerAccess,
-    getAdminAccess
+    getAdminAccess,
+    getCommentOwnerAccess
 }

@@ -15,6 +15,7 @@ const populateHelper = (query, population) => {
                 this.populateHelper(query, item)
             }
             query.populate(item)
+            // console.log(item)
         })
     }
     return query;

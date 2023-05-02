@@ -22,7 +22,9 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
     const product = await Product.findById(id).populate([
         {path:"supplier", select:"shopName email phone"},
         {path:"categories", select:"name slug properties", populate:{path:"properties", select:"property"}},
-        {path:"stocks", select:"size color piece price type"}
+        {path:"stocks", select:"size color piece price type"},
+        {path:"comments" ,select:"comment createdAt customer totalLikeCount", populate:{path:"customer", select:"name surname"}}
+
     ]);
     res.status(200).json({
         success:true,

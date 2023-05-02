@@ -12,7 +12,7 @@ const stock = require("./stock")
 const auth = require("./auth")
 const address = require("./address")
 const order = require("./order")
-
+const comment = require("./comment")
 
 
 const router = express.Router();
@@ -29,4 +29,5 @@ router.use("/public", public)
 router.use("/stocks", stock);
 router.use("/address", address);
 router.use("/orders", order);
+router.use("/comments", comment)
 module.exports = router;
