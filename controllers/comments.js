@@ -4,14 +4,13 @@ const Product = require("../models/Product");
 const Supplier = require("../models/Supplier");
 const add = asyncHandlerWrapper(async (req, res, next) => {
     const {type} = req.query;
-    const {id} = req.params
-    let comment
-   
-    comment = await Comment.create({
+    const {id} = req.params   
+    const comment = await Comment.create({
         commentType:type,
         commentRef:id,
         customer: req.user.id,
-        comment: req.body.comment
+        comment: req.body.comment,
+        ...req.body
     })
     
     res.status(200).json({
@@ -28,13 +27,8 @@ const getAll = asyncHandlerWrapper(async(req, res,next) => {
     })
 })
 const getAllById = asyncHandlerWrapper(async(req, res,next) => {
-    const {id} = req.params
-    const comments = await Comment.find({commentRef:id}).populate(
-        {path:"customer", select:"name surname"}).populate({path:"customer", select:"name surname"});
-    res.status(200).json({
-        success:true,
-        data: comments
-    })
+   
+    res.status(200).json(res.queryResults)
 })
 const deleteAll = asyncHandlerWrapper(async(req, res, next)=> {
     await Comment.deleteMany();

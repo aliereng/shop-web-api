@@ -1,3 +1,4 @@
+
 const searchHelper = (searchKey, query, req) => {
     //
     if (req.query.search) {
@@ -18,6 +19,7 @@ const populateHelper = (query, population) => {
             // console.log(item)
         })
     }
+    query.populate(population)
     return query;
 }
 const sortHelper = function(query, req){
@@ -35,6 +37,12 @@ const sortHelper = function(query, req){
     }
     if(sortKey === "expensive") {
         return query.sort("-price")
+    }
+    if(sortKey === "most") {
+        return query.sort("-totalLikeCount")
+    }
+    if(sortKey === "least") {
+        return query.sort("totalLikeCount")
     }
    
     return query.sort("-createdAt")

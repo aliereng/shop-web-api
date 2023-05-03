@@ -19,7 +19,7 @@ const CommentModel = new mongoose.Schema({
         type:Number,
         default:0
     },
-    point:String,
+    score:String,
     createdAt:{
         type:Date,
         default:Date.now
