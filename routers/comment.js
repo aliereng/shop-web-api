@@ -10,7 +10,11 @@ const router = express.Router();
 
 router.get("/", getAll)
 router.get("/customer", [getAccessToRoute, getCustomerAccess, commentQueryMiddleware(Comment, options={
-    population: [{path:'product', select:'name __v'},{path:"stock",select:"image color size"}]
+    population: [
+        {path:'product', select:'name __v'},
+        {path:"stock",select:"image color size"},
+        {path:"supplier", select:"shopName"}
+    ]
 })], getCommentsByCustomerId)
 
 router.get("/:id", commentQueryMiddleware(Comment, options={

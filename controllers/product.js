@@ -32,20 +32,13 @@ const getProductById = asyncHandlerWrapper(async (req,res,next)=> {
     })
 })
 const addProduct = (async (req, res, next)=>{
-    console.log("add product çalıştı")
-    // const reqProductData = JSON.parse(req.body.product);
+
     const product = await Product.create({
         supplier: req.user.id,
-        // image:req.image,
-        // ...reqProductData
+ 
         ...req.body
     })
-    // product.stocks.push(await Stock.create({
-    //     product: product._id,
-    //     base:true,
-    //     image:req.image,
-    //     ...reqProductData
-    // }));
+
     product.save();
     res.status(200).
     json({
@@ -55,9 +48,7 @@ const addProduct = (async (req, res, next)=>{
     
 });
 
-// const addStockImage = asyncHandlerWrapper(async (req,res,next) =>{
-//     await Stock.findByIdAndUpdate(stock)
-// })
+
 const update = asyncHandlerWrapper(async (req, res, next)=>{
         
     const {product_id} = req.params;
@@ -66,13 +57,7 @@ const update = asyncHandlerWrapper(async (req, res, next)=>{
         new: true,
         runValidators: true
     })
-    // if(req.body.stocks){
-    //    await Stock.findOneAndUpdate({product:product_id}, {
-    //     size: req.body.stocks
-    //    },{
-    //     new:true
-    //    })
-    // }
+
     res.status(200).
     json({
         data: product
