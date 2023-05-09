@@ -13,7 +13,7 @@ const auth = require("./auth")
 const address = require("./address")
 const order = require("./order")
 const comment = require("./comment")
-
+const question = require("./question")
 
 const router = express.Router();
 router.use("/auth", auth)
@@ -30,4 +30,5 @@ router.use("/stocks", stock);
 router.use("/address", address);
 router.use("/orders", order);
 router.use("/comments", comment)
+router.use("/question", question)
 module.exports = router;
