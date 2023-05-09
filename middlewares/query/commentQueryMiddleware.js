@@ -5,10 +5,18 @@ const commentQueryMiddleware = function (model, options) {
         let queryResults;
         let query;
         let total;
+        let { type } = req.query
         if (req._parsedOriginalUrl.pathname.includes("customer")) {
-            query = model.find({ customer: req.user.id });
-            total = await model.find({ customer: req.user.id }).countDocuments();
+            if (type == "supplier") {
+                console.log("supplier çalıştı")
+                query = model.find({ customer: req.user.id }).where({ supplier: { $ne: null } });
+            } else if (type == "product") {
+                query = model.find({ customer: req.user.id }).where({ product: { $ne: null } });
 
+            } else {
+                query = model.find({ customer: req.user.id });
+                total = await model.find({ customer: req.user.id }).countDocuments();
+            }
         } else {
             const { id } = req.params
             query = model.find({ product: id });
