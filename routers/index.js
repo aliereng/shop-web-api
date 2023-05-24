@@ -14,8 +14,10 @@ const address = require("./address")
 const order = require("./order")
 const comment = require("./comment")
 const question = require("./question")
+const answer = require("./answer")
 
 const router = express.Router();
+
 router.use("/auth", auth)
 router.use("/admin", admin)
 router.use("/products", product);
@@ -31,4 +33,5 @@ router.use("/address", address);
 router.use("/orders", order);
 router.use("/comments", comment)
 router.use("/question", question)
+router.use("/answer", answer)
 module.exports = router;

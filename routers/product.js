@@ -15,14 +15,7 @@ router.get("",[productQueryMiddleware(Product, options={
         {path:"stocks", select:"size color price base"}
     ]
 })],getAllProducts)
-router.get("/:slug/:id", [productQueryMiddleware(Product, options={
-    population: [
-        // {path:"categories", select:"name slug children", populate:{path:"children", select:"name slug"}},
-        {path:"supplier", select:"shopName email phone"},
-        {path:"stocks", select:"size color price base"},
-        
-]
-})],getProductById)
+router.get("/:slug/:id",getProductById)
 
 router.get("/merchant",[getAccessToRoute, getSupplierAccess,productQueryMiddleware(Product, options={
     population:[

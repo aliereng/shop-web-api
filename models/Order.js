@@ -62,7 +62,6 @@ const OrderModel = new mongoose.Schema({
 
 })
 OrderModel.post("save", async function () {
-
     const stock = await Stock.findOne(this.stock);
     const product = await Product.findOne(this.product).populate({ path: "stocks", select: "size color piece price type status" })
     stock.piece -= this.count;
