@@ -56,10 +56,18 @@ const removeQuestion = asyncHandlerWrapper(async(req, res, next)=>{
         success:true
     })
 })
+const notAnsweredCount = asyncHandlerWrapper(async(req, res, next)=> {
+    const result = await Question.find({supplier:req.user.id}).where({answer:{$eq:null}}).countDocuments();
+    res.status(200).json({
+        success:true,
+        data: result
+    })
+})
 module.exports = {
     getQuestions,
     addQuestion,
     updateQuestion,
     likeQuestion,
-    removeQuestion
+    removeQuestion,
+    notAnsweredCount
 }

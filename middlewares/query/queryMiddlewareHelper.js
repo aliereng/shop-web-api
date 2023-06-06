@@ -85,7 +85,7 @@ const paginationHelper = async (total, query, req) => {
 
     const pagination = {};
 
-
+   
     if (startIndex > 0) {
         pagination.previous = {
             page: page - 1,
@@ -107,18 +107,27 @@ const paginationHelper = async (total, query, req) => {
     }
 
 }
-const questionQuerySeperator = function (req, model) {
+const questionQuerySeperator = async function (req, model) {
     let { product_id, merchant_id } = req.params
     let { all, answered } = req.query
     
     if (req.user && req._parsedOriginalUrl.pathname.includes("customer")) {
         switch (answered){
             case "false":
-                return model.find({ customer: req.user.id }).where({answer: {$eq:null}})
+                return {
+                    query: model.find({ customer: req.user.id }).where({answer: {$eq:null}}),
+                    total: await model.find({ customer: req.user.id }).where({answer: {$eq:null}}).countDocuments()
+                }
             case "true":
-                return model.find({ customer: req.user.id }).where({answer: {$ne:null}})
+                return {
+                    query: model.find({ customer: req.user.id }).where({answer: {$ne:null}}),
+                    total: await model.find({ customer: req.user.id }).where({answer: {$ne:null}}).countDocuments()
+                }
             default:
-                return model.find({ customer: req.user.id })
+                return {
+                    query:model.find({ customer: req.user.id }),
+                    total: await model.find({ customer: req.user.id }).countDocuments()
+                }
         }
        
 
@@ -128,21 +137,39 @@ const questionQuerySeperator = function (req, model) {
 
         switch (answered){
             case "false":
-                return model.find({ supplier: req.user.id }).where({answer: {$eq:null}})
+                return {
+                    query:model.find({ supplier: req.user.id }).where({answer: {$eq:null}}),
+                    total: await model.find({ supplier: req.user.id }).where({answer: {$eq:null}})
+                }
             case "true":
-                return model.find({ supplier: req.user.id }).where({answer: {$ne:null}})
+                return {
+                    query:model.find({ supplier: req.user.id }).where({answer: {$ne:null}}),
+                    total: await model.find({ supplier: req.user.id }).where({answer: {$ne:null}})
+                }
             default:
-                return model.find({ supplier: req.user.id })
+                return {
+                    query: model.find({ supplier: req.user.id }),
+                    total: await model.find({ supplier: req.user.id }).countDocuments()
+                }
         }
     }
     if (!merchant_id) {
-        return model.find({ product: product_id }).where({ answer: { $ne: null } })
+        return {
+            query:model.find({ product: product_id }).where({ answer: { $ne: null } }),
+            total: await model.find({ product: product_id }).where({ answer: { $ne: null } }).countDocuments()
+        }
     }
     if (all == "true") {
 
-        return model.find({ supplier: merchant_id })
+        return {
+            query: model.find({ supplier: merchant_id }),
+            total: await model.find({ supplier: merchant_id }).countDocuments()
+        }
     } else {
-        return model.find({ supplier: merchant_id }).where({ $and: [{ product: { $eq: product_id } }, { answer: { $ne: null } }] })
+        return {
+            query:model.find({ supplier: merchant_id }).where({ $and: [{ product: { $eq: product_id } }, { answer: { $ne: null } }] }),
+            total: await model.find({ supplier: merchant_id }).where({ $and: [{ product: { $eq: product_id } }, { answer: { $ne: null } }] }).countDocuments()
+        }
     }
     
     
