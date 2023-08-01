@@ -15,7 +15,7 @@ const SupplierModel = new mongoose.Schema({
     },
     shopName: {
         type: String,
-        required: [true, "sağlayıcı mağaza ad alanı boş bırakılamaz"]
+        // required: [true, "sağlayıcı mağaza ad alanı boş bırakılamaz"]
     },
     email: {
         type: String,
@@ -31,11 +31,11 @@ const SupplierModel = new mongoose.Schema({
     },
     phone: {
         type: String,
-        required: [true, "sağlayıcı telefon alanı boş bırakılamaz"]
+        // required: [true, "sağlayıcı telefon alanı boş bırakılamaz"]
     },
     taxNumber: {
         type: String,
-        required: [true, "satıcı vergi numara alanı boş bırakılamaz"]
+        // required: [true, "satıcı vergi numara alanı boş bırakılamaz"]
     },
     products: [
         {

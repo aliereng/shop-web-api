@@ -31,6 +31,10 @@ router.post("/add", [getAccessToRoute, getSupplierAccess, imageUpload.single("im
 router.put("/:product_id/update", [getAccessToRoute, getSupplierAccess], update)
 router.delete("/:product_id/delete",[getAccessToRoute, getSupplierAccess], deleteProductById)
 router.delete("/deleteall", deleteAllProduct)
-router.get("/:slug", [getCategoryIdBySlugName,productQueryMiddleware(Product, {})],getProductsByCategory)
-
+// router.get("/:slug",[getCategoryIdBySlugName, productQueryMiddleware(Product, options={
+//     population: [
+//         {path: "stocks", select: "color"}
+//     ]
+// })],getProductsByCategory)
+router.get("/:slug", getCategoryIdBySlugName ,getProductsByCategory)
 module.exports = router;

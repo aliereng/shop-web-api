@@ -9,6 +9,14 @@ const searchHelper = (searchKey, query, req) => {
     }
     return query;
 }
+const colorHelper = function (query, req) {
+    const { color } = req.query;
+    if (color != null) {
+        return query.where({"color":color})
+        // return Product.find({"stocks.color":color})
+    }
+    return query
+}
 const populateHelper = (query, population) => {
     if (Array.isArray(population)) {
         population.map(item => {
@@ -66,13 +74,7 @@ const priceHelper = function (query, req) {
     }
     return query
 }
-const colorHelper = function (query, req) {
-    const { color } = req.query;
-    if (color != null) {
-        return query.where({ color })
-    }
-    return query
-}
+
 const paginationHelper = async (total, query, req) => {
     const page = parseInt(req.query.page) || 1;
     const limit = parseInt(req.query.limit) || 5;
