@@ -7,6 +7,10 @@ const Order = require("./Order");
 const Address = require("./Address");
 
 const CustomerModel = new mongoose.Schema({
+    identifyNumber:{
+        type:String,
+        default: "11111111111"
+    },
     name: {
         type: String,
     },
@@ -33,6 +37,16 @@ const CustomerModel = new mongoose.Schema({
     },
     resetPasswordExpire: {
         type: Date
+    },
+    ip: {
+        type: String,
+    },
+    lastLoginDate: {
+        type: Date
+    },
+    registeredDate: {
+        type: Date,
+        default: Date.now
     }
    
 })

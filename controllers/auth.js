@@ -1,4 +1,5 @@
 const asyncHandlerWrapper = require("express-async-handler");
+const axios = require('axios');
 const CustomError = require("../helpers/error/CustomError");
 const {sendJwtToCLient} = require("../helpers/auth/tokenHelpers");
 const sendEmail = require("../helpers/libraries/sendEmail");
@@ -22,6 +23,14 @@ const login = asyncHandlerWrapper(async(req, res, next) => {
     if(!comparePassword(password, user.password)){
         return next(new CustomError("hatalı parola", 401))
     }
+    await axios.get(`https://api.ipify.org/`).then(async(resp) => {
+        console.log(resp)
+        user.ip = resp.data;
+        user.lastLoginDate = Date.now();
+        await user.save();
+    }).catch(err=> {
+        return new CustomError("ip adresi alınamadı"+ err.message, 400)
+    })
     sendJwtToCLient(user, res, req.body.model);
 })
 const forgotPassword = asyncHandlerWrapper(async(req, res, next) => {

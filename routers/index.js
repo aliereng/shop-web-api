@@ -15,6 +15,7 @@ const order = require("./order")
 const comment = require("./comment")
 const question = require("./question")
 const answer = require("./answer")
+const payment = require("./payment")
 
 const router = express.Router();
 
@@ -34,4 +35,5 @@ router.use("/orders", order);
 router.use("/comments", comment)
 router.use("/question", question)
 router.use("/answer", answer)
+router.use("/payment", payment)
 module.exports = router;
