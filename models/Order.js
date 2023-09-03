@@ -58,6 +58,14 @@ const OrderModel = new mongoose.Schema({
     complete:{
         type:Boolean,
         default: false
+    },
+    paymentId:{
+        type: String,
+        default: ""
+    },
+    paymentTransactionId: {
+        type: String,
+        default:""
     }
 
 })

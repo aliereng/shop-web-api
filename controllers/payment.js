@@ -1,103 +1,77 @@
 const Iyzipay = require("iyzipay");
 const asyncHandlerWrapper = require("express-async-handler");
 const CustomError = require("../helpers/error/CustomError");
-
+const Order = require("../models/Order");
 
 const iyzipay = new Iyzipay({
-    apiKey: 'api-key',
-    secretKey: 'api-secretkey',
-    uri: 'https://sandbox-api.iyzipay.com'
+  apiKey: "your api key",
+  secretKey: "your secret key",
+  uri: "https://sandbox-api.iyzipay.com",
 });
 
-const pay = asyncHandlerWrapper(async(req, res, next)=> {
+const pay = asyncHandlerWrapper(async (req, res, next) => {
+  iyzipay.payment.create(req.request, function (err, result) {
+  
+    if(result.status === "success"){
+      res.status(200).json({
+        success: true,
+        data: result,
 
-    const request = {
-        locale: Iyzipay.LOCALE.TR,
-        conversationId: '123456789',
-        price: '1',
-        paidPrice: '1.2',
-        currency: Iyzipay.CURRENCY.TRY,
-        installment: '1',
-        basketId: 'B67832',
-        paymentChannel: Iyzipay.PAYMENT_CHANNEL.WEB,
-        paymentGroup: Iyzipay.PAYMENT_GROUP.PRODUCT,
-        paymentCard: {
-            cardHolderName: 'John Doe',
-            cardNumber: '5528790000000008',
-            expireMonth: '12',
-            expireYear: '2030',
-            cvc: '123',
-            registerCard: '0'
-        },
-        buyer: {
-            id: 'BY789',
-            name: 'John',
-            surname: 'Doe',
-            gsmNumber: '+905350000000',
-            email: 'email@email.com',
-            identityNumber: '74300864791',
-            lastLoginDate: '2015-10-05 12:43:35',
-            registrationDate: '2013-04-21 15:12:09',
-            registrationAddress: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-            ip: '85.34.78.112',
-            city: 'Istanbul',
-            country: 'Turkey',
-            zipCode: '34732'
-        },
-        shippingAddress: {
-            contactName: 'Jane Doe',
-            city: 'Istanbul',
-            country: 'Turkey',
-            address: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-            zipCode: '34742'
-        },
-        billingAddress: {
-            contactName: 'Jane Doe',
-            city: 'Istanbul',
-            country: 'Turkey',
-            address: 'Nidakule Göztepe, Merdivenköy Mah. Bora Sok. No:1',
-            zipCode: '34742'
-        },
-        basketItems: [
-            {
-                id: 'BI101',
-                name: 'Binocular',
-                category1: 'Collectibles',
-                category2: 'Accessories',
-                itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                price: '0.3'
-            },
-            {
-                id: 'BI102',
-                name: 'Game code',
-                category1: 'Game',
-                category2: 'Online Game Items',
-                itemType: Iyzipay.BASKET_ITEM_TYPE.VIRTUAL,
-                price: '0.5'
-            },
-            {
-                id: 'BI103',
-                name: 'Usb',
-                category1: 'Electronics',
-                category2: 'Usb / Cable',
-                itemType: Iyzipay.BASKET_ITEM_TYPE.PHYSICAL,
-                price: '0.2'
-            }
-        ]
-    };
-    
-    iyzipay.payment.create(request, function (err, result) {
-        if(err){
-            return new CustomError("Ödeme Gerçekleştirilemedi", 500)
-        }
-        res.status(200).json({
-            success: true,
-            data: result
-        })
-    });
-
+    })}else{
+      return next(new CustomError(`*i${result.errorMessage}*i`, 400))
+    }
+  });
 })
+const pay3D = asyncHandlerWrapper(async (req, res, next) => {
+  
+  iyzipay.threedsInitialize.create(req.request, function (err, result) {
+    if(result.status === "success"){
+      res.status(200).json({
+        success: true,
+        data: result,
 
+    })}else{
+      return next(new CustomError(`*i${result.errorMessage}*i`, 400))
+    }
+  });
+})
+const checkCreditCard = asyncHandlerWrapper(async (req, res, next) => {
+  iyzipay.installmentInfo.retrieve(
+    {
+      locale: req.body.locale === "tr" ? Iyzipay.LOCALE.TR : Iyzipay.LOCALE.EN,
+      conversationId: req.body.conversationId,
+      binNumber: req.body.binNumber,
+      price: req.body.price,
+    },
+    function (err, result) {
+      if (err) return new CustomError("kart hatası: " + err.message, 400);
+      res.status(200).json({
+        success: true,
+        data: result,
+      });
+    }
+  );
+});
+const refund = asyncHandlerWrapper(async(req, res, next)=> {
+  console.log(req.body)
+  iyzipay.refund.create({
+    locale: req.body.locale === "tr" ? Iyzipay.LOCALE.TR : Iyzipay.LOCALE.EN,
+    conversationId: req.body.conversationId,
+    paymentTransactionId: req.body.paymentTransactionId,
+    price: req.body.price,
+    currency: req.body.locale === "tr" ? Iyzipay.CURRENCY.TRY : Iyzipay.CURRENCY.USD,
+    ip: req.body.ip
+  },function(err,result) {
+   
+    res.status(200).json({
+      success: true,
+      data: result,
+    });
+  })
+})
 module.exports = {
-    pay
+  pay,
+  pay3D,
+  checkCreditCard,
+  refund
 }

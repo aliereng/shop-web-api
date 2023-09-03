@@ -33,7 +33,15 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
         {path:"items", select:"product stock items", populate:{path:"product", select:"slug image name supplier", populate:{path:"supplier", select:"shopName slug"}}},
         {path:"items", select:"stock", populate:{path:"stock", select:"color size price"}}
     ]);
+    let transactionId = "";
     cart.items.map(async item => {
+        req.body.itemTransactions.map(transaction=> {
+            // console.log(`itemId: ${transaction.itemId}\npaymentTransactionId: ${transaction.paymentTransactionId}\n item.product_id: ${item.product._id}`)
+            if(transaction.itemId == item.product._id){
+                transactionId = transaction.paymentTransactionId
+                console.log("true");
+            }
+        })
         await Order.create({
             customer: req.user.id,
             product:item.product._id,
@@ -41,10 +49,12 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
             count: item.count,
             amount: item.price,
             supplier: item.product.supplier,
+            paymentTransactionId: transactionId,
             ...req.body
         })
+        
     })
-
+    
     res.status(200).json({
         success:true,
         message:"Sipariş Oluşturuldu."
@@ -53,7 +63,7 @@ const applyCart = asyncHandlerWrapper(async (req, res, next)=> {
 })
 const getCart = asyncHandlerWrapper(async(req, res, next)=> {
     const cart = await Cart.findOne({customer: req.user.id}).populate([
-        {path:"items", select:"product stock items", populate:{path:"product", select:"slug image name supplier", populate:{path:"supplier", select:"shopName slug"}}},
+        {path:"items", select:"product stock items", populate:{path:"product", select:"slug categories image name supplier", populate:[{path:"supplier", select:"shopName slug"},{path:"categories", select:"name"}]}},
         {path:"items", select:"stock", populate:{path:"stock", select:"color size price"}}
     ]);
     res.status(200)

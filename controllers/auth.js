@@ -24,7 +24,6 @@ const login = asyncHandlerWrapper(async(req, res, next) => {
         return next(new CustomError("hatalı parola", 401))
     }
     await axios.get(`https://api.ipify.org/`).then(async(resp) => {
-        console.log(resp)
         user.ip = resp.data;
         user.lastLoginDate = Date.now();
         await user.save();
