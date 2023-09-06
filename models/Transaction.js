@@ -16,6 +16,10 @@ const TransactionModel = new mongoose.Schema({
     complete:{
         type:Boolean,
         default:false
+    },
+    cancel: {
+        type: Boolean,
+        default: false
     }
     
 })

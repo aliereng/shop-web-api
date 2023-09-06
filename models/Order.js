@@ -59,6 +59,10 @@ const OrderModel = new mongoose.Schema({
         type:Boolean,
         default: false
     },
+    cancel: {
+        type: Boolean,
+        default: false
+    },
     paymentId:{
         type: String,
         default: ""
@@ -131,5 +135,10 @@ OrderModel.post("save", async function () {
 //     }
 
 // })
-
+OrderModel.pre("findOneAndUpdate", async function(){
+    await Transaction.findOneAndUpdate({order : this._conditions._id}, {
+        complete: true,
+        cancel: true
+    })
+})
 module.exports = mongoose.model("Order", OrderModel)

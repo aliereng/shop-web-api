@@ -9,6 +9,7 @@ const iyzipay = new Iyzipay({
   uri: "https://sandbox-api.iyzipay.com",
 });
 
+
 const pay = asyncHandlerWrapper(async (req, res, next) => {
   iyzipay.payment.create(req.request, function (err, result) {
   
@@ -53,7 +54,6 @@ const checkCreditCard = asyncHandlerWrapper(async (req, res, next) => {
   );
 });
 const refund = asyncHandlerWrapper(async(req, res, next)=> {
-  console.log(req.body)
   iyzipay.refund.create({
     locale: req.body.locale === "tr" ? Iyzipay.LOCALE.TR : Iyzipay.LOCALE.EN,
     conversationId: req.body.conversationId,
