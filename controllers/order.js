@@ -3,8 +3,8 @@ const Order = require("../models/Order");
 const Iyzipay = require("iyzipay");
 
 const iyzipay = new Iyzipay({
-    apiKey: "your api key",
-    secretKey: "your secret key",
+    apiKey: "api key",
+    secretKey: "secret key",
     uri: "https://sandbox-api.iyzipay.com",
 });
 
@@ -24,17 +24,19 @@ const getOrderByCustomer = asyncErrorWrapper(async (req, res, next)=> {
         {path:"deliveredAddress", select:"title info"},
         {path:"invoiceAddress", select:"title info"}
     ])
-
     res.status(200).json({
         success:true,
         data:orders
     })
 })
-const returnPayment = asyncErrorWrapper(async(req, res, next)=> {
-    const orderId = req.params.id;
+const refundPayCustomer = asyncErrorWrapper(async(req, res, next)=> {
+    const {orderId, refundChoice} = req.body;
+    console.log(`orderId: ${orderId} refundChoice: ${refundChoice}`)
     await Order.findByIdAndUpdate(orderId, {
         cancel : true,
-        complete: true
+        complete: true,
+        refundRequest: true,
+        refundChoice: refundChoice
     });
     res.status(200).json({
         success: true
@@ -71,5 +73,6 @@ const cancelOrder = asyncErrorWrapper(async(req, res, next)=> {
 module.exports = {
     getAllOrders,
     getOrderByCustomer,
-    cancelOrder
+    cancelOrder,
+    refundPayCustomer
 }

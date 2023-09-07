@@ -57,6 +57,7 @@ const updateTransaction = asyncHandlerWrapper(async (req, res, next) => {
     })
 
 })
+
 const updateStock = asyncHandlerWrapper(async (req, res, next) => {
     const { productId, stockId } = req.body
 
@@ -88,6 +89,17 @@ const updateStock = asyncHandlerWrapper(async (req, res, next) => {
         data: stock
     })
 
+})
+const sendRefundInfo = asyncHandlerWrapper(async (req, res, next)=> {
+    const {orderId, selectShipper, followCode} = req.body;
+    await Order.findByIdAndUpdate(orderId, {
+        shipper: selectShipper,
+        followCode: followCode,
+        refundStatus: true
+    })
+    res.status(200).json({
+        success: true
+    })
 })
 const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
     const { productId, stockId } = req.body;
@@ -124,5 +136,6 @@ module.exports = {
     getAllSuppliers,
     updateStock,
     deleteStock,
-    deleteAllMerchant
+    deleteAllMerchant,
+    sendRefundInfo
 }

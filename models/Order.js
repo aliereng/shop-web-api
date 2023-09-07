@@ -63,6 +63,15 @@ const OrderModel = new mongoose.Schema({
         type: Boolean,
         default: false
     },
+    refundRequest: {
+        type: Boolean,
+        default: false,
+    },
+    refundChoice: String,
+    refundStatus: {
+        type: Boolean,
+        default: false
+    },
     paymentId:{
         type: String,
         default: ""

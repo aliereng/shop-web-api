@@ -15,7 +15,7 @@ const getCustomer = asyncHandlerWrapper(async (req, res, next) =>{
     })
 })
 const getOrders = asyncHandlerWrapper(async (req, res, next) =>{
-    const orders = await Order.findOne({customer: req.user.id});
+    const orders = await Order.find({customer: req.user.id});
     res.status(200)
     .json({
         data: orders
