@@ -6,11 +6,13 @@ const add = asyncHandlerWrapper(async (req, res, next) => {
     const {type} = req.query;
     const {id} = req.params
     let comment; 
+    console.log(req.body)
     if(type=="Product"){
         comment = await Comment.create({
             product:id,
             customer: req.user.id,
             comment: req.body.comment,
+            supplier: req.body.supplier,
             ...req.body
         })
     }
@@ -43,7 +45,7 @@ const getAllById = asyncHandlerWrapper(async(req, res,next) => {
    
     res.status(200).json(res.queryResults)
 })
-const getCommentsByCustomerId = asyncHandlerWrapper(async(req, res, next)=> {
+const getCommentsByUserId = asyncHandlerWrapper(async(req, res, next)=> {
     res.status(200).json(res.queryResults)
 })
 const deleteAll = asyncHandlerWrapper(async(req, res, next)=> {
@@ -93,7 +95,7 @@ module.exports = {
     add,
     getAll,
     getAllById,
-    getCommentsByCustomerId,
+    getCommentsByUserId,
     deleteAll,
     deleteById,
     likeComment,

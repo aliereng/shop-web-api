@@ -41,7 +41,6 @@ router.get("/product/:product_id/merchant/:merchant_id", questionQueryMiddleware
 }), getQuestions)
 router.get("/notansweredcount", getAccessToRoute, notAnsweredCount)
 router.post("/add", [getAccessToRoute, getCustomerAccess], addQuestion)
-
 router.put("/update/:question_id", [getAccessToRoute, getCustomerAccess], updateQuestion)
 router.put("/like/:question_id", likeQuestion)
 router.delete("/delete/:id", removeQuestion)

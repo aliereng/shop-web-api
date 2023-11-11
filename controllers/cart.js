@@ -93,6 +93,3 @@ module.exports = {
     getCart,
     updateCart
 }
-//63fbaf706955fce1040c2a4b - 63fcd6806cc7e91af13bb085
-//63fcf813992e38f9ebf362de - 63fcf848992e38f9ebf362ee
-//63fcfc3f992e38f9ebf36318 - 63fcfc72992e38f9ebf3632e

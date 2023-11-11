@@ -1,12 +1,6 @@
 const asyncErrorWrapper = require("express-async-handler");
 const Order = require("../models/Order");
-const Iyzipay = require("iyzipay");
-
-const iyzipay = new Iyzipay({
-    apiKey: "api key",
-    secretKey: "secret key",
-    uri: "https://sandbox-api.iyzipay.com",
-});
+const { cancelPay, returnPay } = require("./payment");
 
 const getAllOrders = asyncErrorWrapper(async (req, res, next) => {
     const orders = await Order.find();
@@ -29,50 +23,66 @@ const getOrderByCustomer = asyncErrorWrapper(async (req, res, next)=> {
         data:orders
     })
 })
-const refundPayCustomer = asyncErrorWrapper(async(req, res, next)=> {
-    const {orderId, refundChoice} = req.body;
-    console.log(`orderId: ${orderId} refundChoice: ${refundChoice}`)
-    await Order.findByIdAndUpdate(orderId, {
-        cancel : true,
-        complete: true,
-        refundRequest: true,
-        refundChoice: refundChoice
-    });
-    res.status(200).json({
-        success: true
-    })
-})
+
 const cancelOrder = asyncErrorWrapper(async(req, res, next)=> {
     const ids = req.body.ids;
-    iyzipay.cancel.create(req.body.info, (err, result)=> {
-        if(result.status == "success"){
-            
-            ids.map(async orderId => {
-                await Order.findOneAndUpdate({_id:orderId}, {
-                    complete: true,
-                    cancel: true
-                })
+
+    cancelPay(req.body.info).then(async iyzicoResponse => {
+        ids.map(async orderId => {
+            await Order.findOneAndUpdate({_id:orderId}, {
+                orderStatus: true,
+                cancel: true
             })
-            res.status(200).json({
-                success: true,
-                data: result,
-            });
-        }else{
-            res.status(400).json({
-                success: false,
-                data: "bir hata oluştu",
-            });
-        }
+        })
+        res.status(200).json({success: true, message:"siparişler iptal edildi"})
+    }).catch(err=> {
+        res.status(400).json({success: false, message: err})
 
-        
     })
-    
-})
 
+})
+const createReturn = asyncErrorWrapper(async (req, res, next) => {
+    await Order.findByIdAndUpdate(req.body.orderId, {
+        orderStatus: true,
+        cancel: false,
+        returnStatus: "request",
+        shipper: req.body.shipper,
+        boxCOunt: req.body.boxCount,
+        returnReason: req.body.returnReason,
+        followCode: req.body.followCode,
+        ip: req.body.ip
+    })
+    res.status(200).json({success:true})
+
+
+})
+const completeReturnOrder = asyncErrorWrapper(async (req, res, next) => {
+    if(req.body.returnStatus == "apply"){
+        returnPay(req.body.info).then(async iyzicoResponse => {
+            await Order.findByIdAndUpdate(req.body.orderId, {
+                returnStatus : "apply"
+            })
+           res.status(200).json({success: true, data: iyzicoResponse})
+
+        }).catch(err=> {
+            res.status(200).json({success: true, data: err})
+
+        });
+
+    }else{
+        await Order.findByIdAndUpdate(req.body.orderId, {
+            returnStatus : "cancel"
+        })
+        res.status(400).json({success: false, data: "iade reddedildi."})
+
+    }
+
+})
 
 module.exports = {
     getAllOrders,
     getOrderByCustomer,
     cancelOrder,
-    refundPayCustomer
+    createReturn,
+    completeReturnOrder
 }

@@ -55,23 +55,17 @@ const OrderModel = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    complete:{
-        type:Boolean,
-        default: false
-    },
     cancel: {
         type: Boolean,
         default: false
     },
-    refundRequest: {
-        type: Boolean,
-        default: false,
+    returnReason: String,
+    returnStatus: {
+        type: String,
+        default: "noRequest",
+        enum:["noRequest", "request", "apply", "cancel"]
     },
-    refundChoice: String,
-    refundStatus: {
-        type: Boolean,
-        default: false
-    },
+    boxCount: String,
     paymentId:{
         type: String,
         default: ""

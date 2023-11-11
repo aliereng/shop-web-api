@@ -1,6 +1,6 @@
 const express = require("express");
-const {getAccessToRoute, getCustomerAccess,getCommentOwnerAccess} = require("../middlewares/authorization/auth");
-const {add, getAll, getAllById, deleteAll, likeComment, deleteById, getCommentsByCustomerId,updateComment} = require("../controllers/comments");
+const {getAccessToRoute, getCustomerAccess,getCommentOwnerAccess, getSupplierAccess} = require("../middlewares/authorization/auth");
+const {add, getAll, getAllById, deleteAll, likeComment, deleteById, getCommentsByUserId,updateComment} = require("../controllers/comments");
 
 const {commentQueryMiddleware} = require("../middlewares/query/commentQueryMiddleware");
 const Comment = require("../models/Comment");
@@ -15,8 +15,14 @@ router.get("/customer", [getAccessToRoute, getCustomerAccess, commentQueryMiddle
         {path:"stock",select:"image color size"},
         {path:"supplier", select:"shopName"}
     ]
-})], getCommentsByCustomerId)
-
+})], getCommentsByUserId)
+router.get("/merchant", [getAccessToRoute, getSupplierAccess, commentQueryMiddleware(Comment, options={
+    population: [
+        {path:'product', select:'name __v'},
+        {path:"stock",select:"image color size"}
+        
+    ]
+})], getCommentsByUserId)
 router.get("/:id", commentQueryMiddleware(Comment, options={
     population: {path:"customer", select:"name surname"}
     

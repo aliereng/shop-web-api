@@ -129,6 +129,37 @@ const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
         success: true
     })
 })
+const getShippersByMerchant = asyncHandlerWrapper(async (req, res, next)=> {
+    const {id} = req.params;
+    const supplier = await Supplier.findById(id).select("shippers").populate({path:"shippers", select:"_id name"});
+
+    res.status(200).json({
+        success: true,
+        data: supplier
+    })
+})
+
+const addShipper = asyncHandlerWrapper(async(req, res, next)=> {
+    const supplier = await Supplier.findById(req.user.id).select("shippers");
+    req.body.map(item=>{
+        if(!supplier.shippers.includes(item)){
+            supplier.shippers.push(item)
+        }
+    })
+    supplier.save();
+    res.status(200).json({
+       success:true,
+       data: supplier
+    })
+})
+const removeShipper = asyncHandlerWrapper(async(req, res, next)=> {
+    const supplier = await Supplier.findById(req.user.id).select("shippers");
+    supplier.shippers.splice(supplier.shippers.indexOf(req.params.id),1);
+    supplier.save();
+    res.status(200).json({
+       success:true
+    })
+})
 
 module.exports = {
     getTransaction,
@@ -137,5 +168,8 @@ module.exports = {
     updateStock,
     deleteStock,
     deleteAllMerchant,
-    sendRefundInfo
+    sendRefundInfo,
+    getShippersByMerchant,
+    addShipper,
+    removeShipper
 }
