@@ -97,18 +97,18 @@ const addProduct = async (req, res, next) => {
     ...req.body,
   });
 
-  product.save();
+  // product.save();
   res.status(200).json({
     success: true,
     data: product,
   });
 };
 
-const update = asyncHandlerWrapper(async (req, res, next) => {
-  const { product_id } = req.params;
+const updateProductById = asyncHandlerWrapper(async (req, res, next) => {
+  const { productId } = req.params;
 
   const product = await Product.findByIdAndUpdate(
-    product_id,
+    productId,
     { ...req.body },
     {
       new: true,
@@ -122,9 +122,9 @@ const update = asyncHandlerWrapper(async (req, res, next) => {
 });
 
 const deleteProductById = asyncHandlerWrapper(async (req, res, next) => {
-  const { product_id } = req.params;
+  const { productId } = req.params;
 
-  const product = await Product.findById(product_id);
+  const product = await Product.findById(productId);
   product.remove();
   res.status(200).json({
     message: "başarılı",
@@ -141,7 +141,7 @@ const deleteAllProduct = asyncHandlerWrapper(async (req, res, next) => {
 module.exports = {
   getAllProducts,
   addProduct,
-  update,
+  updateProductById,
   deleteAllProduct,
   deleteProductById,
   getAllProductsBySupplier,

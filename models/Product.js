@@ -1,6 +1,7 @@
 const mongoose = require("mongoose");
 const sluqify = require("slugify");
 const Stock = require("./Stock");
+const Supplier = require("./Supplier");
 const ProductModel = new mongoose.Schema({
     name: {
         type: String,
@@ -72,9 +73,8 @@ ProductModel.pre("save", function (next) {
     this.slug = this.makeSlug();
   
     next();
-
-
 });
+
 ProductModel.pre("remove", async function () {
     
     const stocks = await  Stock.find({product:this._id});
@@ -89,6 +89,11 @@ ProductModel.post("deleteMany", async function(){
     await Stock.deleteMany({product:this._id});
 })
 
+ProductModel.post("save", async function(){
+    const supplier = await Supplier.findById(this.supplier);
+    supplier.products.push(this._id);
+    supplier.save();
+})
 
 ProductModel.methods.makeSlug = function () {
     return sluqify(this.name, {

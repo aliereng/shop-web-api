@@ -25,8 +25,6 @@ const createRequest = (req, res, next)=> {
             ? Iyzipay.PAYMENT_CHANNEL.WEB
             : Iyzipay.PAYMENT_CHANNEL.MOBILE,
         paymentGroup: Iyzipay.PAYMENT_GROUP.PRODUCT,
-        // callbackUrl: 'https://www.merchant.com/callback',
-
         paymentCard: req.body.paymentCard,
         buyer: req.body.buyer,
         shippingAddress: req.body.shippingAddress,

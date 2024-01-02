@@ -17,8 +17,24 @@ const getAll = asyncHandlerWrapper(async (req, res, next) => {
     )
 
 })
+const deleteAllShippers = asyncHandlerWrapper(async (req, res, next)=> {
+    await Shipper.deleteMany();
+    res.status(200).json({
+        success:true
+    })
+})
+const deleteShipperById = asyncHandlerWrapper(async(req, res, next)=> {
+    const {shipperId} = req.params;
+    await Shipper.findByIdAndDelete(shipperId);
+    res.status(200).json({
+        success: true,
+        message: "Shipper delete operation success"
+    })
+})
 
 
 module.exports = {
-    add, getAll
+    add, getAll,
+    deleteAllShippers,
+    deleteShipperById
 }

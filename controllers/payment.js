@@ -4,8 +4,8 @@ const CustomError = require("../helpers/error/CustomError");
 const Order = require("../models/Order");
 
 const iyzipay = new Iyzipay({
-  apiKey: "api-key",
-  secretKey: "seker-key",
+  apiKey: "your_api_key",
+  secretKey: "your_secret_key",
   uri: "https://sandbox-api.iyzipay.com",
 });
 

@@ -6,13 +6,16 @@ const Order = require("../models/Order")
 const Product = require("../models/Product")
 const Stock = require("../models/Stock")
 const getAllSuppliers = asyncHandlerWrapper(async (req, res, next) => {
-    const suppliers = await Supplier.find();
     res.status(200).json({
         success: true,
-        data: suppliers
+        data: req.queryResults
     })
 })
-const getTransaction = asyncHandlerWrapper(async (req, res, next) => {
+const getSupplierById  = asyncHandlerWrapper(async(req, res, next)=> {
+    res.status(200).json(req.queryResults);
+
+})
+const getTransactionsBySupplier = asyncHandlerWrapper(async (req, res, next) => {
     // Transaction.find({ supplier: req.user.id }).populate({
     //     path: "order", populate: [
     //         { path: "product", select: "name slug" },
@@ -130,8 +133,8 @@ const deleteStock = asyncHandlerWrapper(async (req, res, next) => {
     })
 })
 const getShippersByMerchant = asyncHandlerWrapper(async (req, res, next)=> {
-    const {id} = req.params;
-    const supplier = await Supplier.findById(id).select("shippers").populate({path:"shippers", select:"_id name"});
+    const {supplierId} = req.params;
+    const supplier = await Supplier.findById(supplierId).select("shippers").populate({path:"shippers", select:"_id name"});
 
     res.status(200).json({
         success: true,
@@ -160,9 +163,17 @@ const removeShipper = asyncHandlerWrapper(async(req, res, next)=> {
        success:true
     })
 })
+const deleteMerchantById = asyncHandlerWrapper(async(req, res, next)=>{
+    const {supplierId} = req.params;
+    await Supplier.findByIdAndDelete(supplierId);
+    res.status(200).json({
+        success: true,
+        message: "Supplier delete operation success"
+    })
+})
 
 module.exports = {
-    getTransaction,
+    getTransactionsBySupplier,
     updateTransaction,
     getAllSuppliers,
     updateStock,
@@ -171,5 +182,7 @@ module.exports = {
     sendRefundInfo,
     getShippersByMerchant,
     addShipper,
-    removeShipper
+    removeShipper,
+    getSupplierById,
+    deleteMerchantById
 }

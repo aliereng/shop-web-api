@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const Answer = require("./Answer");
 
 const QuestionModel = new mongoose.Schema({
     title: {
@@ -38,6 +39,9 @@ QuestionModel.pre("findOneAndDelete", async function() {
     }
     console.log("pre metot")
     
+})
+QuestionModel.post("deleteMany", async function(){
+    await Answer.deleteMany();
 })
 
 module.exports = mongoose.model("Question", QuestionModel);

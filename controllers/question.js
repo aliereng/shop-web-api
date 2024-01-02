@@ -47,7 +47,7 @@ const likeQuestion = asyncHandlerWrapper(async(req, res, next)=> {
     })
 
 })
-const removeQuestion = asyncHandlerWrapper(async(req, res, next)=>{
+const deleteQuestionById = asyncHandlerWrapper(async(req, res, next)=>{
     const {id} = req.params;
     const question = await Question.findById(id);
     await Answer.findByIdAndRemove(question.answer);
@@ -63,11 +63,19 @@ const notAnsweredCount = asyncHandlerWrapper(async(req, res, next)=> {
         data: result
     })
 })
+const deleteAllQuestions = asyncHandlerWrapper(async (req, res, next) => {
+    await Question.deleteMany();
+    res.status(200).json({
+        success: true,
+        message: "All questions deleted."
+    })
+})
 module.exports = {
     getQuestions,
     addQuestion,
     updateQuestion,
     likeQuestion,
-    removeQuestion,
-    notAnsweredCount
+    deleteQuestionById,
+    notAnsweredCount,
+    deleteAllQuestions
 }

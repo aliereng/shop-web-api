@@ -1,6 +1,6 @@
 const express = require("express");
 const {getAccessToRoute, getCustomerAccess,getCommentOwnerAccess, getSupplierAccess} = require("../middlewares/authorization/auth");
-const {add, getAll, getAllById, deleteAll, likeComment, deleteById, getCommentsByUserId,updateComment} = require("../controllers/comments");
+const {add, getAll, getAllById, deleteAllComments, likeComment, deleteCommentById, getCommentsByUserId,updateComment} = require("../controllers/comments");
 
 const {commentQueryMiddleware} = require("../middlewares/query/commentQueryMiddleware");
 const Comment = require("../models/Comment");
@@ -30,7 +30,7 @@ router.get("/:id", commentQueryMiddleware(Comment, options={
 
 router.post("/add/:id",[getAccessToRoute, getCustomerAccess], add);
 router.put("/like/:id", [getAccessToRoute, getCustomerAccess], likeComment);
-router.delete("/delete/:id", [getAccessToRoute, getCustomerAccess], deleteById)
+router.delete("/delete/:commentId", [getAccessToRoute, getCustomerAccess], deleteCommentById)
 router.put("/update/:id", [getAccessToRoute, getCustomerAccess], updateComment)
-router.delete("/", deleteAll)
+router.delete("/", deleteAllComments)
 module.exports = router;

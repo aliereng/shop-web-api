@@ -3,25 +3,14 @@ const Order = require("../models/Order");
 const { cancelPay, returnPay } = require("./payment");
 
 const getAllOrders = asyncErrorWrapper(async (req, res, next) => {
-    const orders = await Order.find();
-    res.status(200).json({
-        success:true,
-        data: orders
-    })
+    res.status(200).json(res.queryResults)
+
 })
-const getOrderByCustomer = asyncErrorWrapper(async (req, res, next)=> {
-    const orders = await Order.find({customer:req.user.id}).populate([
-        {path:"product", select:"name slug"},
-        {path:"stock", select:"image size color price"},
-        {path:"supplier", select:"shopName slug"},
-        {path:"shipper", select:"name"},
-        {path:"deliveredAddress", select:"title info"},
-        {path:"invoiceAddress", select:"title info"}
-    ])
-    res.status(200).json({
-        success:true,
-        data:orders
-    })
+const getOrdersByCustomer = asyncErrorWrapper(async (req, res, next)=> {
+    res.status(200).json(res.queryResults)
+})
+const getOrderById = asyncErrorWrapper(async(req, res,next)=> {
+    res.status(200).json(res.queryResults);
 })
 
 const cancelOrder = asyncErrorWrapper(async(req, res, next)=> {
@@ -78,11 +67,40 @@ const completeReturnOrder = asyncErrorWrapper(async (req, res, next) => {
     }
 
 })
+const deleteAllOrders = asyncErrorWrapper(async (req, res, next) => {
+    await Order.deleteMany();
+    res.status(200).json({success:true, message: "All Orders deleted."})
+})
+const deleteOrderById = asyncErrorWrapper(async(req, res, next)=> {
+    const {orderId} = req.params;
+    await Order.deleteOrderById(orderId);
+    res.status(200).json({
+        success: true,
+        message: "Order delete operation success"
+    })
+})
+const updateOrderById = asyncErrorWrapper(async(req, res, next)=> {
+    const {orderId} = req.params;
+    const order = await Order.findByIdAndUpdate(orderId, {
+        ...req.body
+    }, {
+        new: true,
+        runValidators:true
+    });
+    res.status(200).json({
+        success: true,
+        data: order
+    })
+})
 
 module.exports = {
     getAllOrders,
-    getOrderByCustomer,
+    getOrdersByCustomer,
     cancelOrder,
     createReturn,
-    completeReturnOrder
+    completeReturnOrder,
+    getOrderById,
+    deleteAllOrders,
+    deleteOrderById,
+    updateOrderById
 }

@@ -1,7 +1,6 @@
 const asyncHandlerWrapper = require("express-async-handler");
 const Comment = require("../models/Comment");
-const Product = require("../models/Product");
-const Supplier = require("../models/Supplier");
+
 const add = asyncHandlerWrapper(async (req, res, next) => {
     const {type} = req.query;
     const {id} = req.params
@@ -48,17 +47,18 @@ const getAllById = asyncHandlerWrapper(async(req, res,next) => {
 const getCommentsByUserId = asyncHandlerWrapper(async(req, res, next)=> {
     res.status(200).json(res.queryResults)
 })
-const deleteAll = asyncHandlerWrapper(async(req, res, next)=> {
+const deleteAllComments = asyncHandlerWrapper(async(req, res, next)=> {
     await Comment.deleteMany();
     res.status(200).json(
         {
-            success:true
+            success:true,
+            message: "All comments deleted."
         }
     )
 })
-const deleteById = asyncHandlerWrapper(async(req, res, next)=> {
-    const {id} = req.params
-    await Comment.findByIdAndDelete(id);
+const deleteCommentById = asyncHandlerWrapper(async(req, res, next)=> {
+    const {commentId} = req.params
+    await Comment.findByIdAndDelete(commentId);
     res.status(200).json({
         success: true
     })
@@ -96,8 +96,8 @@ module.exports = {
     getAll,
     getAllById,
     getCommentsByUserId,
-    deleteAll,
-    deleteById,
+    deleteAllComments,
+    deleteCommentById,
     likeComment,
     updateComment
 }

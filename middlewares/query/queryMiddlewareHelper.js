@@ -18,6 +18,7 @@ const colorHelper = function (query, req) {
     return query
 }
 const populateHelper = (query, population) => {
+    // console.log(population)
     if (Array.isArray(population)) {
         population.map(item => {
             if (Array.isArray(item)) {

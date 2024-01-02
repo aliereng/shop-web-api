@@ -2,7 +2,18 @@ const asyncHandlerWrapper = require("express-async-handler");
 const {searchHelper,populateHelper, paginationHelper} = require("./queryMiddlewareHelper")
 const customerQueryMiddleware = function(model, options){
     return asyncHandlerWrapper(async function(req,res,next){
-        let query = model.find();
+        const {customerId} = req.params;
+        let query;
+
+        if(customerId){
+            query = model.findById(customerId);
+        }else if(req.user.model=="customer"){
+            query = model.findById(req.user.id).select("+password");
+
+        }else{
+            query = model.find();
+        }
+        
         query = searchHelper("email", query, req);
         if(options && options.population){
             query = populateHelper(options.population);
@@ -13,13 +24,20 @@ const customerQueryMiddleware = function(model, options){
         const pagination = paginationResult.pagination;
 
         const queryResults = await query;
-        res.queryResults = {
-            success: true,
-            totalPageCount: Math.ceil(total/ queryResults.length),
-            total: total,
-            count: queryResults.length,
-            pagination: pagination,
-            data: queryResults
+        if(customerId || req.user.model=="customer"){
+            res.queryResults = {
+                success: true,
+                data: queryResults
+            }
+        }else{
+            res.queryResults = {
+                success: true,
+                totalPageCount: Math.ceil(total/ queryResults.length),
+                total: total,
+                count: queryResults.length,
+                pagination: pagination,
+                data: queryResults
+            }
         }
         next();
     })

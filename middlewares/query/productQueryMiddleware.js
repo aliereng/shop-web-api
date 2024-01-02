@@ -3,7 +3,14 @@ const {searchHelper,populateHelper, sortHelper, paginationHelper, priceHelper, c
 const productQueryMiddleware = function(model, options){
     return asyncHandlerWrapper(async function(req,res,next){
         let queryResults;
-        let query = model.find();
+        let query;
+        const {supplierId} = req.params;
+        console.log(supplierId)
+        if(supplierId){
+            query = model.find().where({supplier: supplierId})
+        }else{
+            query = model.find()
+        }
        
         query = searchHelper("name", query, req);
         if(options && options.population){

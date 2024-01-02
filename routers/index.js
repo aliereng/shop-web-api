@@ -16,6 +16,7 @@ const comment = require("./comment")
 const question = require("./question")
 const answer = require("./answer")
 const payment = require("./payment")
+const invoice = require("./invoice")
 
 const router = express.Router();
 
@@ -36,4 +37,6 @@ router.use("/comments", comment)
 router.use("/question", question)
 router.use("/answer", answer)
 router.use("/payment", payment)
+router.use("/invoice", invoice)
+
 module.exports = router;

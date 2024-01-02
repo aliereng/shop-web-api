@@ -24,5 +24,9 @@ const TransactionModel = new mongoose.Schema({
     
 })
 
+// TransactionModel.post("deleteMany", async function(){
+//     await Order.deleteMany();
+// })
+
 
 module.exports = mongoose.model("Transaction", TransactionModel)

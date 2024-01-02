@@ -40,9 +40,16 @@ const add = asyncHandlerWrapper(async (req, res, next) =>{
         data: address
     })
 })
-const removeById = asyncHandlerWrapper(async (req,res,next)=> {
-    const {id} = req.params
-    await Address.findByIdAndDelete(id);
+const deleteAddressById = asyncHandlerWrapper(async (req,res,next)=> {
+    const {addressId} = req.params
+    await Address.findByIdAndDelete(addressId);
+    res.status(200).json({
+        success: true,
+        message: "Address delete operation success"
+    })
+})
+const deleteAllAddresses = asyncHandlerWrapper(async (req, res, next)=> {
+    await Address.deleteMany();
     res.status(200).json({
         success: true
     })
@@ -53,6 +60,7 @@ module.exports ={
     getById,
     add,
     getByUserAddress,
-    removeById,
-    updateById
+    deleteAddressById,
+    updateById,
+    deleteAllAddresses
 }

@@ -31,8 +31,8 @@ const updateAnswer = asyncHandlerWrapper(async(req, res, next)=> {
     })
 })
 const deleteAnswer = asyncHandlerWrapper(async(req, res, next)=> {
-    const {id} = req.params
-    const answer = await Answer.findById(id);
+    const {answerId} = req.params
+    const answer = await Answer.findById(answerId);
     const question = await Question.findById(answer.question);
     question.answer = null;
     question.save();
@@ -41,9 +41,26 @@ const deleteAnswer = asyncHandlerWrapper(async(req, res, next)=> {
         success: true
     })
 })
+const deleteAllAnswers = asyncHandlerWrapper(async (req, res, next)=> {
+    await Answer.deleteMany();
+    res.status(200).json({
+        success: true
+    })
+})
+const deleteAnswersByQuestion = asyncHandlerWrapper(async (req, res, next) => {
+    const {questionId} = req.params;
+    await Answer.deleteMany({question:questionId});
+    res.status(200).json({
+        success: true,
+        message: "Answers to the question have been deleted"
+    })
+
+})
 
 module.exports = {
     addAnswer,
     updateAnswer,
-    deleteAnswer
+    deleteAnswer,
+    deleteAllAnswers,
+    deleteAnswersByQuestion
 }

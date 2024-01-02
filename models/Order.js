@@ -144,4 +144,8 @@ OrderModel.pre("findOneAndUpdate", async function(){
         cancel: true
     })
 })
+OrderModel.post("deleteMany", async function(){
+    await Transaction.deleteMany();
+    
+})
 module.exports = mongoose.model("Order", OrderModel)

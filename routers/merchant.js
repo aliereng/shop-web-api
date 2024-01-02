@@ -1,5 +1,5 @@
 const express = require("express");
-const { getTransaction, updateTransaction, updateStock, deleteStock, deleteAllMerchant, sendRefundInfo, getShippersByMerchant , addShipper,removeShipper} = require("../controllers/merchant");
+const { getTransactionsBySupplier, updateTransaction, updateStock, deleteStock, deleteAllMerchant, sendRefundInfo, getShippersByMerchant , addShipper,removeShipper} = require("../controllers/merchant");
 const { register, login, forgotPassword, resetPassword } = require("../controllers/auth");
 const { getAccessToRoute, getSupplierAccess } = require("../middlewares/authorization/auth")
 const { transactionQueryMiddleware } = require("../middlewares/query/transactionQueryMiddleware");
@@ -28,7 +28,7 @@ router.get("/transaction", [getAccessToRoute, getSupplierAccess, transactionQuer
                 ]
         }
     ]
-})], getTransaction)
+})], getTransactionsBySupplier)
 router.put("/transaction/update", [getAccessToRoute, getSupplierAccess], updateTransaction)
 router.get("/get-shippers/:id", getShippersByMerchant)
 router.post("/add-shippers", [getAccessToRoute, getSupplierAccess], addShipper)

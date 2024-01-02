@@ -54,15 +54,15 @@ const update = asyncHandlerWrapper(async (req, res, next) => {
     })
 
 });
-const remove = asyncHandlerWrapper(async (req, res, next) => {
-    const { category_id } = req.params
+const deleteCategoryById = asyncHandlerWrapper(async (req, res, next) => {
+    const { categoryId } = req.params
     await Category.findByIdAndDelete(category_id)
     res.status(200).json({
         success: true
     })
 
 });
-const removeAll = asyncHandlerWrapper(async (req, res, next) => {
+const deleteAllCategory = asyncHandlerWrapper(async (req, res, next) => {
     await Category.deleteMany();
     res.status(200).json({
         success: true
@@ -91,7 +91,7 @@ module.exports = {
     getCategoryById,
     add,
     update,
-    remove,
-    removeAll,
+    deleteCategoryById,
+    deleteAllCategory,
     addPropToThisCategory
 }
